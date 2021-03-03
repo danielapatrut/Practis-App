@@ -1,1 +1,1 @@
-# Practice-App
+# Practis-App
