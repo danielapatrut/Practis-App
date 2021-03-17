@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "82776930627",
+    "project_id": "practis-app",
+    "storage_bucket": "practis-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:82776930627:android:11e7de5a524635d61697f6",
+        "android_client_info": {
+          "package_name": "com.techdevs.practis"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "82776930627-ordhjukinf2u2ojqlvh96420h35hclsg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClMBeJqqqq9BatmHH9XVAmn0sN-fZoR6k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "82776930627-ordhjukinf2u2ojqlvh96420h35hclsg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
