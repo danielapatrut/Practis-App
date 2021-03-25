@@ -4,4 +4,6 @@
     <string name="register_email">email</string>
     <string name="register_password">password</string>
     <string name="register_confirmpass">confirm password</string>
+    <string name="login_email">email</string>
+    <string name="login_password">password</string>
 </resources>
