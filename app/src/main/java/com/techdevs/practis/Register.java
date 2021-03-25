@@ -36,7 +36,7 @@ public class Register extends AppCompatActivity {
         mPassword   = findViewById(R.id.registerPassword);
         mConfirmPassword      = findViewById(R.id.registerConfirmPassword);
         mRegisterBtn= findViewById(R.id.registerButton);
-
+        mLoginBtn = findViewById(R.id.loginText);
         fAuth = FirebaseAuth.getInstance();
 
         if(fAuth.getCurrentUser() != null){
@@ -66,7 +66,7 @@ public class Register extends AppCompatActivity {
                     return;
                 }
 
-                if(!(password.equals(confirmPassword)))
+               if(!(password.equals(confirmPassword)))
                 {
                     mConfirmPassword.setError("Password don't match");
                     return;
@@ -89,11 +89,18 @@ public class Register extends AppCompatActivity {
             }
         });
 
-        mLoginBtn.setOnClickListener(new View.OnClickListener() {
+      /*  mLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(),Login.class));
             }
-        });
+        });*/
     }
+
+    public void goToLogin(View view)
+    {
+        startActivity(new Intent(getApplicationContext(),Login.class));
+        finish();
+    }
+
 }

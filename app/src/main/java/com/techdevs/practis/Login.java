@@ -16,12 +16,14 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import android.widget.TextView;
 
 public class Login extends AppCompatActivity {
     EditText mEmail,mPassword;
     Button mLoginBtn;
-    FirebaseAuth fAuth;
     TextView mRegBtn;
+    FirebaseAuth fAuth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +32,7 @@ public class Login extends AppCompatActivity {
 
         mEmail = findViewById(R.id.loginEmail);
         mPassword = findViewById(R.id.registerPassword);
+        mRegBtn = findViewById(R.id.textToSignUp);
 
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,5 +77,6 @@ public class Login extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(),Register.class));
             }
         });
+
     }
 }

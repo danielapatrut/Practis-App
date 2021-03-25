@@ -131,6 +131,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="508dp"
+        android:onClick="goToLogin"
         android:text="Already have an account? Log In here!"
         android:textColor="#8A48A3"
         app:layout_constraintBottom_toBottomOf="parent"
