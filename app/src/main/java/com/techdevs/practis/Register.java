@@ -1,5 +1,6 @@
 package com.techdevs.practis;
 
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -90,18 +91,18 @@ public class Register extends AppCompatActivity {
             }
         });
 
-      /*  mLoginBtn.setOnClickListener(new View.OnClickListener() {
+        mLoginText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(),Login.class));
             }
-        });*/
+        });
     }
 
-    public void goToLogin(View view)
+    /*public void goToLogin(View view)
     {
         startActivity(new Intent(Register.this,Login.class));
         //finish();
-    }
+    }*/
 
 }
