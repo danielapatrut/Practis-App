@@ -21,7 +21,7 @@ import android.widget.TextView;
 public class Login extends AppCompatActivity {
     EditText mEmail,mPassword;
     Button mLoginBtn;
-    TextView mRegBtn;
+    TextView mRegText;
     FirebaseAuth fAuth;
 
 
@@ -31,9 +31,10 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         mEmail = findViewById(R.id.loginEmail);
-        mPassword = findViewById(R.id.registerPassword);
-        mRegBtn = findViewById(R.id.textToSignUp);
-
+        mPassword = findViewById(R.id.loginPassword);
+        mRegText = findViewById(R.id.textToSignUp);
+        mLoginBtn = findViewById(R.id.loginButton);
+        fAuth = FirebaseAuth.getInstance();
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,7 +72,7 @@ public class Login extends AppCompatActivity {
             }
         });
 
-        mRegBtn.setOnClickListener(new View.OnClickListener() {
+        mRegText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(),Register.class));

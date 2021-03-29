@@ -3,6 +3,7 @@ package com.techdevs.practis;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -21,7 +22,7 @@ public class Register extends AppCompatActivity {
 
     EditText mUserName,mEmail,mPassword,mConfirmPassword;
     Button mRegisterBtn;
-    TextView mLoginBtn;
+    TextView mLoginText;
 
     FirebaseAuth fAuth;
 
@@ -35,8 +36,8 @@ public class Register extends AppCompatActivity {
         mEmail      = findViewById(R.id.registerEmail);
         mPassword   = findViewById(R.id.registerPassword);
         mConfirmPassword      = findViewById(R.id.registerConfirmPassword);
-        mRegisterBtn= findViewById(R.id.registerButton);
-        mLoginBtn = findViewById(R.id.loginText);
+        mRegisterBtn= findViewById(R.id.loginButton);
+        mLoginText = findViewById(R.id.loginText);
         fAuth = FirebaseAuth.getInstance();
 
         if(fAuth.getCurrentUser() != null){
@@ -99,8 +100,8 @@ public class Register extends AppCompatActivity {
 
     public void goToLogin(View view)
     {
-        startActivity(new Intent(getApplicationContext(),Login.class));
-        finish();
+        startActivity(new Intent(Register.this,Login.class));
+        //finish();
     }
 
 }
