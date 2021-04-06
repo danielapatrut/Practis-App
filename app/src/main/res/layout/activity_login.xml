@@ -10,15 +10,15 @@
     <View
         android:id="@+id/view"
         android:layout_width="292dp"
-        android:layout_height="455dp"
-        android:layout_marginTop="16dp"
+        android:layout_height="438dp"
+        android:layout_marginTop="8dp"
         android:background="#B7FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2"
-        app:layout_constraintVertical_bias="0.038" />
+        app:layout_constraintVertical_bias="0.024" />
 
     <TextView
         android:id="@+id/textView"
@@ -38,7 +38,7 @@
         android:id="@+id/loginButton"
         android:layout_width="230dp"
         android:layout_height="46dp"
-        android:layout_marginBottom="40dp"
+        android:layout_marginTop="16dp"
         android:text="LOGIN"
         android:textColor="#FFFFFF"
         app:backgroundTint="#BC74D7"
@@ -46,13 +46,15 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view"
+        app:layout_constraintVertical_bias="0.108" />
 
     <TextView
         android:id="@+id/textToSignUp"
         android:layout_width="264dp"
         android:layout_height="33dp"
-        android:layout_marginTop="148dp"
+        android:layout_marginTop="128dp"
         android:clickable="true"
         android:gravity="center"
         android:text="Don't have an account, sign up here."

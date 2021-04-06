@@ -1,11 +1,14 @@
 package com.techdevs.practis;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton mNewPageButton;
     ImageView mProfileImage;
 
+    private MainPageFragment mMainPageFragment;
+    private FrameLayout mFrameLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         mMenuButton = findViewById(R.id.menuButton);
         mWelcomeLabel = findViewById(R.id.welcomeLabel);
         mProfileImage = findViewById(R.id.profileImage);
+        mFrameLayout = findViewById(R.id.mainContainer);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); //current logged in user
         if (user != null) {
@@ -46,6 +52,9 @@ public class MainActivity extends AppCompatActivity {
         }
         //change profile picture
         //mProfileImage.setImageURI();
+
+        mMainPageFragment = new MainPageFragment();
+        replaceFragment(mMainPageFragment);
         mMenuButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,5 +78,10 @@ public class MainActivity extends AppCompatActivity {
         FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(getApplicationContext(),Login.class));
         finish();
+    }
+    private void replaceFragment(Fragment fragment){
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.mainContainer,fragment);
+        fragmentTransaction.commit();
     }
 }
