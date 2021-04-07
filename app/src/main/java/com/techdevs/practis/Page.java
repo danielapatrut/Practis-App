@@ -8,8 +8,8 @@ public class Page {
     private static int numberOfPages = 0; //stores the number of pages created by the user
     private boolean hasCoverImage = false;
     private String title;
-    //private String content;
-    private File content; //store content as markdown
+    private String content;
+    //private File content; //store content as markdown
 
     public Page() {
     }
@@ -17,12 +17,17 @@ public class Page {
         this.hasCoverImage = hasCoverImage;
         this.title = title;
     }
-    public Page(String userID, boolean hasCoverImage, String title, File content) {
+    public Page(boolean hasCoverImage, String title,String content){
+        this.hasCoverImage=hasCoverImage;
+        this.content=content;
+        this.title=title;
+    }
+    /*public Page(String userID, boolean hasCoverImage, String title, File content) {
         this.userID = userID;
         this.hasCoverImage = hasCoverImage;
         this.title = title;
         this.content = content;
-    }
+    }*/
 
     public static int getNumberOfPages() {
         return numberOfPages;
@@ -55,11 +60,19 @@ public class Page {
         this.title = title;
     }
 
-    public File getContent() {
+    /*public File getContent() {
         return content;
     }
 
     public void setContent(File content) {
+        this.content = content;
+    }*/
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
         this.content = content;
     }
 }
