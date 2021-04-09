@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //go to new page
-                //startActivity(new Intent(getApplicationContext(),NewPageActivity.class));
+                startActivity(new Intent(getApplicationContext(),NewPageActivity.class));
 
             }
         });
