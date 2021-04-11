@@ -38,7 +38,7 @@ public class MainPageFragment extends Fragment {
         mPagesListView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mPagesListView.setAdapter(mRecyclerAdapter);
         //connect to firebase
-        //dummy page
+        //dummy pages
         Page example = new Page("1",true,"Title");
         pageTiles.add(example);
         Page example2 = new Page("2",true,"Title2");
@@ -48,6 +48,7 @@ public class MainPageFragment extends Fragment {
         Page example4 = new Page(false,"No Img Title","Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
         pageTiles.add(example4);
         mRecyclerAdapter.notifyDataSetChanged();
+
         return view;
     }
 }

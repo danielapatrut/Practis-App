@@ -66,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //go to new page
+
                 startActivity(new Intent(getApplicationContext(),NewPageActivity.class));
 
             }
@@ -84,4 +85,5 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.mainContainer,fragment);
         fragmentTransaction.commit();
     }
+
 }

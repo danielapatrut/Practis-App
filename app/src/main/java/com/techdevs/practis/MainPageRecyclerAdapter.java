@@ -1,10 +1,13 @@
 package com.techdevs.practis;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,6 +29,13 @@ public class MainPageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
         View view;
         if(viewType == WITH_IMAGE){
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.page_list_item, parent,false);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    System.out.println("pressed a tile");
+                    //startActivity(new Intent(getApplicationContext(),NewPageActivity.class));
+                }
+            });
             return new ImageViewHolder(view);
         }else{
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.page_list_item_no_image, parent,false);
@@ -33,7 +43,6 @@ public class MainPageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
         }
 
     }
-    
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
@@ -47,6 +56,7 @@ public class MainPageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
             ((NoImageViewHolder)viewHolder).setPageTitle(title);
             ((NoImageViewHolder)viewHolder).setPageContent(content);
         }
+
     }
 
     @Override
@@ -60,6 +70,7 @@ public class MainPageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
     public int getItemCount() {
         return pageTiles.size();
     }
+
     public class ImageViewHolder extends RecyclerView.ViewHolder{
 
         private View mView;

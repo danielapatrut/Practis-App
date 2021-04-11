@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#FFFFFF"
     tools:context=".NewPageActivity">
 
     <Button
@@ -11,31 +12,35 @@
         android:layout_width="100dp"
         android:layout_height="60dp"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="28dp"
+        android:layout_marginBottom="16dp"
         android:text="SAVE"
         android:textColor="#FFFFFF"
         android:textSize="18dp"
         app:backgroundTint="#BC74D7"
         app:cornerRadius="20dip"
+        app:iconTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.856"
+        app:layout_constraintHorizontal_bias="0.948"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view"
         app:layout_constraintVertical_bias="0.108" />
 
     <FrameLayout
         android:id="@+id/newPageContainer"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="330dp"
+        android:layout_height="580dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginRight="4dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintEnd_toStartOf="@+id/buttonContainer"
+        app:layout_constraintHorizontal_bias="0.086"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        app:layout_constraintVertical_bias="1.0">
-
-    </FrameLayout>
+        app:layout_constraintVertical_bias="0.036" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linearLayout"
@@ -80,7 +85,7 @@
             app:tint="#FFFFFF" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/pageUpperTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -95,10 +100,10 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="70dp"
-        android:layout_height="380dp"
-        android:layout_marginTop="109dp"
+        android:id="@+id/buttonContainer"
+        android:layout_width="65dp"
+        android:layout_height="330dp"
+        android:layout_marginTop="90dp"
         android:background="@drawable/sidebar_toolkit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -107,8 +112,8 @@
 
         <ImageButton
             android:id="@+id/makeTextBold"
-            android:layout_width="41dp"
-            android:layout_height="50dp"
+            android:layout_width="34dp"
+            android:layout_height="40dp"
             android:layout_marginTop="14dp"
             android:background="@android:color/transparent"
             android:scaleType="fitCenter"
@@ -119,8 +124,8 @@
 
         <ImageButton
             android:id="@+id/makeCheckBox"
-            android:layout_width="31dp"
-            android:layout_height="36dp"
+            android:layout_width="27dp"
+            android:layout_height="30dp"
             android:layout_marginTop="22dp"
             android:background="@android:color/transparent"
             android:scaleType="fitCenter"
@@ -131,8 +136,8 @@
 
         <ImageButton
             android:id="@+id/addImage"
-            android:layout_width="31dp"
-            android:layout_height="36dp"
+            android:layout_width="27dp"
+            android:layout_height="30dp"
             android:layout_marginTop="14dp"
             android:background="@android:color/transparent"
             android:scaleType="fitCenter"
@@ -143,8 +148,8 @@
 
         <ImageButton
             android:id="@+id/makeTextItalic"
-            android:layout_width="41dp"
-            android:layout_height="50dp"
+            android:layout_width="34dp"
+            android:layout_height="40dp"
             android:layout_marginTop="14dp"
             android:background="@android:color/transparent"
             android:scaleType="fitCenter"
@@ -155,8 +160,8 @@
 
         <ImageButton
             android:id="@+id/makeUnderlined"
-            android:layout_width="41dp"
-            android:layout_height="50dp"
+            android:layout_width="34dp"
+            android:layout_height="40dp"
             android:layout_marginTop="14dp"
             android:background="@android:color/transparent"
             android:scaleType="fitCenter"
@@ -167,8 +172,8 @@
 
         <ImageButton
             android:id="@+id/changeTextColor"
-            android:layout_width="41dp"
-            android:layout_height="50dp"
+            android:layout_width="34dp"
+            android:layout_height="40dp"
             android:layout_marginTop="10dp"
             android:background="@android:color/transparent"
             android:scaleType="fitCenter"

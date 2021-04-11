@@ -5,11 +5,14 @@ import java.io.File;
 //page editor
 public class Page {
     private static String userID; //current user
-    private static int numberOfPages = 0; //stores the number of pages created by the user
+    private static int numberOfPages = 0; //stores the number of pages created by the user, move to user
     private boolean hasCoverImage = false;
     private String title;
     private String content;
     //private File content; //store content as markdown
+    private boolean newPage=true;
+
+
 
     public Page() {
     }
@@ -36,6 +39,13 @@ public class Page {
         numberOfPages++;
     }
 
+    public boolean isNewPage() {
+        return newPage;
+    }
+
+    public void setNewPage(boolean newPage) {
+        this.newPage = newPage;
+    }
     public String getUserID() {
         return userID;
     }
