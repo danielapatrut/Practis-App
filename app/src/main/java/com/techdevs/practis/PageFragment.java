@@ -19,6 +19,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import io.noties.markwon.Markwon;
+
 public class PageFragment extends Fragment {
 
     private Page mPage;
@@ -41,6 +43,9 @@ public class PageFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         mTitle=view.findViewById(R.id.pageTitleText);
         mContent=view.findViewById(R.id.pageContentText);
+
+        //final Markwon markwon = Markwon.create(getActivity());
+        //markwon.setMarkdown(mContent, "**Hello there**");
         //dynamically change page title from activity
         mTitle.addTextChangedListener(new TextWatcher() {
             @Override
@@ -88,5 +93,10 @@ public class PageFragment extends Fragment {
 
         sb.setSpan(styleItalic, start, end, 0);
         mContent.setText(sb);
+    }
+    public String getTitle(){
+        return mTitle.getText().toString();
+    }public String getContent(){
+        return mContent.getText().toString();
     }
 }

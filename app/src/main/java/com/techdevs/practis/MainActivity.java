@@ -13,10 +13,14 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,9 +28,10 @@ public class MainActivity extends AppCompatActivity {
     TextView mWelcomeLabel;
     FloatingActionButton mNewPageButton;
     ImageView mProfileImage;
-
     private MainPageFragment mMainPageFragment;
     private FrameLayout mFrameLayout;
+    private static int numberOfPagesCreated=0;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,22 +44,25 @@ public class MainActivity extends AppCompatActivity {
         mFrameLayout = findViewById(R.id.mainContainer);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); //current logged in user
+        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
         if (user != null) {
             // User is signed in
             //change welcome label text
-            for (UserInfo profile : user.getProviderData()) {
-
-                // UID specific to the provider
-                String uid = profile.getUid();
-                String email = profile.getEmail();
-                //mWelcomeLabel.setText("Welcome, "+email); //just user?
-            }
+            DocumentReference docRef = firestore.collection("users").document(user.getUid());
+            firestore.collection("users").document(user.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    User currentUser = documentSnapshot.toObject(User.class);
+                    mWelcomeLabel.setText("Welcome, "+currentUser.getUserName());
+                }
+            });
         }
         //change profile picture
         //mProfileImage.setImageURI();
 
         mMainPageFragment = new MainPageFragment();
         replaceFragment(mMainPageFragment);
+
         mMenuButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -65,9 +73,9 @@ public class MainActivity extends AppCompatActivity {
         mNewPageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent newPageIntent=new Intent(getApplicationContext(),NewPageActivity.class);
                 //go to new page
-
-                startActivity(new Intent(getApplicationContext(),NewPageActivity.class));
+                startActivity(newPageIntent);
 
             }
         });
@@ -85,5 +93,10 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction.replace(R.id.mainContainer,fragment);
         fragmentTransaction.commit();
     }
-
+    public static void incrementPages(){
+        numberOfPagesCreated++;
+    }
+    public static int getNumberOfPagesCreated(){
+        return numberOfPagesCreated;
+    }
 }

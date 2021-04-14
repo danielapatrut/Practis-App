@@ -16,6 +16,9 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class NewPageActivity extends AppCompatActivity {
 
@@ -24,9 +27,11 @@ public class NewPageActivity extends AppCompatActivity {
     FloatingActionButton mAddImage;
     TextView mPageTitle;
     ConstraintLayout mButtonContainer;
-
+    private FirebaseFirestore firebaseFirestore;
+    private FirebaseAuth firebaseAuth;
     private PageFragment mPageFragment;
     private Page mPage;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +49,14 @@ public class NewPageActivity extends AppCompatActivity {
         mUnderlineText = findViewById(R.id.makeUnderlined);
         mPageTitle= findViewById(R.id.pageUpperTitle);
         mButtonContainer=findViewById(R.id.buttonContainer);
+
+        firebaseAuth=FirebaseAuth.getInstance();
+        firebaseFirestore = FirebaseFirestore.getInstance();
+
+        mPage=new Page();
+
+        mPage.setUserID(firebaseAuth.getUid());
+
         mMenuButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,14 +67,20 @@ public class NewPageActivity extends AppCompatActivity {
         mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                mPage.setTitle(mPageFragment.getTitle());
+                mPage.setContent(mPageFragment.getContent());
+                MainActivity.incrementPages();
                 //save content to new page and add to list of tiles
                 //if it's new add to list
-                //if(mPage.isNewPage()) {
+                if(mPage.isNewPage()) {
                     //save in db
-                //}else {
+                    mPage.setNewPage(false);
+                    firebaseFirestore.collection("pages").document(String.valueOf(MainActivity.getNumberOfPagesCreated())).set(mPage);
+                }else {
                     //if it's old update
 
-                //}
+                }
 
                 //go back to main page
                 startActivity(new Intent(getApplicationContext(),MainActivity.class));
@@ -71,6 +90,8 @@ public class NewPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //open image dialog
+                //change image for page
+                mPage.setHasCoverImage(false); //until then, it's false
             }
         });
 
