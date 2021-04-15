@@ -6,4 +6,7 @@
     <string name="register_confirmpass">confirm password</string>
     <string name="login_email">email</string>
     <string name="login_password">password</string>
+    <string name="page_title">Title</string>
+    <string name="page_content">Start typing...</string>
+
 </resources>
