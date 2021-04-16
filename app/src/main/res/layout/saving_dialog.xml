@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout2"
+    android:layout_width="350dp"
+    android:layout_height="200dp"
+    android:background="@drawable/rounded_pop_up"
+    android:orientation="vertical"
+    android:paddingLeft="20dp"
+    android:paddingTop="15dp"
+    android:paddingRight="20dp">
+
+    <TextView
+        android:id="@+id/popupTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/montserrat_light"
+        android:gravity="center"
+        android:hint="@string/no_title_content"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_conversion_absoluteHeight="51dp"
+        tools:layout_conversion_absoluteWidth="269dp" />
+
+    <Button
+        android:id="@+id/continueEditing"
+        android:layout_width="140dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="20dp"
+        android:text="Continue Editing"
+        android:textColor="@color/white"
+        app:backgroundTint="#BC74D7"
+        app:cornerRadius="20dp"
+        app:layout_constraintStart_toStartOf="@+id/popupTitle"
+        app:layout_constraintTop_toBottomOf="@+id/popupTitle"
+        tools:layout_conversion_absoluteHeight="55dp"
+        tools:layout_conversion_absoluteWidth="140dp" />
+
+    <Button
+        android:id="@+id/goMain"
+        android:layout_width="140dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="20dp"
+        android:text="Go to main page"
+        android:textColor="@color/white"
+        app:backgroundTint="#BC74D7"
+        app:cornerRadius="20dp"
+        app:layout_constraintEnd_toEndOf="@+id/popupTitle"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/continueEditing"
+        app:layout_constraintTop_toBottomOf="@+id/popupTitle"
+        tools:layout_conversion_absoluteHeight="55dp"
+        tools:layout_conversion_absoluteWidth="140dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>
