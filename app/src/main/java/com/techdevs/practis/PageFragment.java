@@ -19,13 +19,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import java.util.concurrent.Executors;
+
 import io.noties.markwon.Markwon;
+
 
 public class PageFragment extends Fragment {
 
     private Page mPage;
     private EditText mTitle, mContent;
     CharacterStyle styleItalic;
+
     public PageFragment() {
         // Required empty public constructor
     }
@@ -43,8 +47,8 @@ public class PageFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         mTitle=view.findViewById(R.id.pageTitleText);
         mContent=view.findViewById(R.id.pageContentText);
-
-        //final Markwon markwon = Markwon.create(getActivity());
+        final Markwon markwon = Markwon.create(getActivity());
+        //final MarkwonEditor editor = MarkwonEditor.create(markwon);
         //markwon.setMarkdown(mContent, "**Hello there**");
         //dynamically change page title from activity
         mTitle.addTextChangedListener(new TextWatcher() {
@@ -60,11 +64,16 @@ public class PageFragment extends Fragment {
             public void afterTextChanged(Editable s) {}
         });
 
-        if(!mPage.getTitle().equals("")){
-            mTitle.setText(mPage.getTitle());
-        }
-        if(!mPage.getContent().equals("")){
-            mContent.setText(mPage.getContent());
+        //mContent.addTextChangedListener(MarkwonEditorTextWatcher.withPreRender(editor, Executors.newCachedThreadPool(),mContent));
+        //mContent.addTextChangedListener(MarkwonEditorTextWatcher.withProcess(editor));
+
+        if(((NewPageActivity)getActivity()).isFromList()) {
+            if (!mPage.getTitle().equals("")) {
+                mTitle.setText(mPage.getTitle());
+            }
+            if (!mPage.getContent().equals("")) {
+                mContent.setText(mPage.getContent());
+            }
         }
     }
 

@@ -45,6 +45,7 @@ public class NewPageActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private PageFragment mPageFragment;
     private Page mPage;
+    private boolean fromList=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,14 +68,13 @@ public class NewPageActivity extends AppCompatActivity {
         firebaseFirestore = FirebaseFirestore.getInstance();
         mPage=new Page();
 
-        Boolean isNew = getIntent().getBooleanExtra("IS_NEW",true);
-        if(getIntent().hasExtra("IS_NEW")) {
-            mPage.setNewPage(isNew);
+        if(getIntent().hasExtra("PAGE_TITLE")) {
+            mPage.setNewPage(getIntent().getBooleanExtra("IS_NEW",true));
             mPage.setTitle(getIntent().getStringExtra("PAGE_TITLE"));
             mPage.setContent(getIntent().getStringExtra("PAGE_CONTENT"));
             mPage.setPageID(getIntent().getStringExtra("PAGE_ID"));
             mPage.setHasCoverImage(getIntent().getBooleanExtra("HAS_PHOTO", false));
-            //mPageFragment.setmPage(mPage);
+            fromList=true;
         }
 
         mPage.setUserID(firebaseAuth.getUid());
@@ -179,8 +179,9 @@ public class NewPageActivity extends AppCompatActivity {
         });
 
         mPageFragment = new PageFragment();
-        replaceFragment(mPageFragment);
         mPageFragment.setmPage(mPage);
+        replaceFragment(mPageFragment);
+
     }
 
 
@@ -276,4 +277,7 @@ public class NewPageActivity extends AppCompatActivity {
         });
     }
 
+    public boolean isFromList() {
+        return fromList;
+    }
 }
