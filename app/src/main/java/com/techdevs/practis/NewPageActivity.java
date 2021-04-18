@@ -65,8 +65,17 @@ public class NewPageActivity extends AppCompatActivity {
 
         firebaseAuth=FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
-
         mPage=new Page();
+
+        Boolean isNew = getIntent().getBooleanExtra("IS_NEW",true);
+        if(getIntent().hasExtra("IS_NEW")) {
+            mPage.setNewPage(isNew);
+            mPage.setTitle(getIntent().getStringExtra("PAGE_TITLE"));
+            mPage.setContent(getIntent().getStringExtra("PAGE_CONTENT"));
+            mPage.setPageID(getIntent().getStringExtra("PAGE_ID"));
+            mPage.setHasCoverImage(getIntent().getBooleanExtra("HAS_PHOTO", false));
+            //mPageFragment.setmPage(mPage);
+        }
 
         mPage.setUserID(firebaseAuth.getUid());
 
@@ -83,42 +92,45 @@ public class NewPageActivity extends AppCompatActivity {
                 mPage.setTitle(mPageFragment.getTitle());
                 mPage.setContent(mPageFragment.getContent());
                 //save content to new page and add to list of tiles
+                if(mPage.isNewPage()) {
+                    Query q = firebaseFirestore.collection("pages").orderBy("pageID", Query.Direction.DESCENDING).limit(1);
+                    q.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    int pageID = Integer.parseInt(document.getString("pageID"));
+                                    pageID++;
 
-                Query q = firebaseFirestore.collection("pages").orderBy("pageID", Query.Direction.DESCENDING).limit(1);
-                q.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                int pageID = Integer.parseInt(document.getString("pageID"));
-                                pageID++;
-                                mPage.setPageID(String.valueOf(pageID));
-                                if(mPage.isNewPage()) {
-                                    if(!mPage.getTitle().equals("") && !mPage.getContent().equals("")) {
-                                        //save in db
-                                        mPage.setNewPage(false);
-                                        firebaseFirestore.collection("pages").document(String.valueOf(pageID)).set(mPage);
-                                        startActivity(new Intent(getApplicationContext(),MainActivity.class));
-                                    }else{
-                                        openSavingDialog();
-                                    }
-                                }else {
-                                    //if it's old update
-                                    startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                                        mPage.setPageID(String.valueOf(pageID));
+                                        if(!mPage.getTitle().equals("") && !mPage.getContent().equals("")) {
+                                            //save in db
+                                            mPage.setNewPage(false);
+                                            firebaseFirestore.collection("pages").document(String.valueOf(pageID)).set(mPage);
+                                            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                                        }else{
+                                            openSavingDialog();
+                                        }
+
                                 }
                             }
                         }
-                    }
-                });
-                //go back to main page
+                    });
+                }else {
+                    //if it's old update
+                    firebaseFirestore.collection("pages").document(mPage.getPageID()).set(mPage);
+                    startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                }
             }
         });
+
+        //add image from gallery
         mAddImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //open image dialog
                 //change image for page
-                mPage.setHasCoverImage(false); //until then, it's false
+                mPage.setHasCoverImage(true); //until then, it's false
             }
         });
 
@@ -168,6 +180,7 @@ public class NewPageActivity extends AppCompatActivity {
 
         mPageFragment = new PageFragment();
         replaceFragment(mPageFragment);
+        mPageFragment.setmPage(mPage);
     }
 
 

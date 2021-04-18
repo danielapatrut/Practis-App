@@ -60,6 +60,12 @@ public class PageFragment extends Fragment {
             public void afterTextChanged(Editable s) {}
         });
 
+        if(!mPage.getTitle().equals("")){
+            mTitle.setText(mPage.getTitle());
+        }
+        if(!mPage.getContent().equals("")){
+            mContent.setText(mPage.getContent());
+        }
     }
 
     public void changeTextColor(){
@@ -96,7 +102,20 @@ public class PageFragment extends Fragment {
     }
     public String getTitle(){
         return mTitle.getText().toString();
-    }public String getContent(){
+    }
+    public String getContent(){
         return mContent.getText().toString();
+    }
+
+    public void setmTitle(String mTitle) {
+        this.mTitle.setText(mTitle);
+    }
+
+    public void setmContent(String mContent) {
+        this.mContent .setText(mContent);
+    }
+
+    public void setmPage(Page mPage) {
+        this.mPage = mPage;
     }
 }
