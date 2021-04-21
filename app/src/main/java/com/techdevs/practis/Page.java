@@ -10,6 +10,7 @@ public class Page {
     private String content;
     //private File content; //store content as markdown
     private boolean newPage=true;
+    private String pageID;
 
     public Page() {
     }
@@ -29,6 +30,13 @@ public class Page {
         this.content = content;
     }*/
 
+    public String getPageID() {
+        return pageID;
+    }
+
+    public void setPageID(String pageID) {
+        this.pageID = pageID;
+    }
 
     public boolean isNewPage() {
         return newPage;
