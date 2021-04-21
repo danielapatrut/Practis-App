@@ -34,6 +34,8 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import io.noties.markwon.Markwon;
+
 public class NewPageActivity extends AppCompatActivity {
 
     Button mMenuButton,mSaveButton;
@@ -66,6 +68,9 @@ public class NewPageActivity extends AppCompatActivity {
 
         firebaseAuth=FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
+
+        final Markwon markwon = Markwon.create(this);
+
         mPage=new Page();
 
         if(getIntent().hasExtra("PAGE_TITLE")) {
@@ -160,7 +165,7 @@ public class NewPageActivity extends AppCompatActivity {
         mMakeTextBold.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPageFragment.makeTextBold();
+                mPageFragment.makeTextBold(markwon);
             }
         });
 
@@ -214,7 +219,7 @@ public class NewPageActivity extends AppCompatActivity {
         redColor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("red button");
+                mPageFragment.changeTextColor();
             }
         });
         Button blueColor = (Button)dialog.findViewById(R.id.blue);
@@ -258,7 +263,6 @@ public class NewPageActivity extends AppCompatActivity {
     private void openSavingDialog() {
         SavingDialog savingDialog = new SavingDialog(this);
         savingDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-
         savingDialog.show();
 
         Button continueEditing = (Button)savingDialog.findViewById(R.id.continueEditing);

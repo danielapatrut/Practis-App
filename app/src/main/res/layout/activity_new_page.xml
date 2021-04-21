@@ -91,12 +91,16 @@
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             android:fontFamily="@font/montserrat_light"
+            android:maxLength="20"
             android:text="Title"
             android:textColor="#665B69"
             android:textSize="27sp"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/addImageInNewPage"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toEndOf="@+id/menuButton"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.52" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

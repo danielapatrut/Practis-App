@@ -37,6 +37,7 @@ dependencies {
     implementation "io.noties.markwon:editor:$markwon_version"
     implementation "io.noties.markwon:ext-tasklist:$markwon_version"
     implementation "io.noties.markwon:image:$markwon_version"
+    implementation "io.noties.markwon:recycler:$markwon_version"
 
     implementation 'androidx.appcompat:appcompat:1.2.0'
 
