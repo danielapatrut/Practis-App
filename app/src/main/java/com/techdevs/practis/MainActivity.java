@@ -1,11 +1,15 @@
 package com.techdevs.practis;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -15,6 +19,7 @@ import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
@@ -30,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
     ImageView mProfileImage;
     private MainPageFragment mMainPageFragment;
     private FrameLayout mFrameLayout;
+    private DrawerLayout mDrawer;
+    private NavigationView nvDrawer;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
         mWelcomeLabel = findViewById(R.id.welcomeLabel);
         mProfileImage = findViewById(R.id.profileImage);
         mFrameLayout = findViewById(R.id.mainContainer);
+        mDrawer = findViewById(R.id.drawer_layout);
+        nvDrawer = findViewById(R.id.nvView);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); //current logged in user
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
@@ -66,7 +75,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //open menu
-                //startActivity(new Intent(getApplicationContext(),MenuActivity.class));
+                //startActivity(new Intent(getApplicationContext(),GalleryActivity.class));
+                mDrawer.openDrawer(GravityCompat.START);
             }
         });
         mNewPageButton.setOnClickListener(new View.OnClickListener() {
@@ -78,10 +88,62 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        setupDrawerContent(nvDrawer);
 
     }
 
-    public void logout(View view)
+    private void setupDrawerContent(NavigationView navigationView) {
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        selectDrawerItem(menuItem);
+                        return true;
+                    }
+                });
+    }
+
+    public void selectDrawerItem(MenuItem menuItem) {
+
+        Class fragmentClass;
+        switch(menuItem.getItemId()) {
+            case R.id.nav_home:
+                fragmentClass = MainActivity.class;
+                break;
+            /*case R.id.nav_calendar:
+                fragmentClass = CalendarActivity.class;
+                break;
+            case R.id.nav_urgent_task:
+                fragmentClass = UrgentTasksActivity.class;
+                break;*/
+            case R.id.nav_gallery:
+                fragmentClass = GalleryActivity.class;
+                break;
+            /*case R.id.nav_profile:
+                fragmentClass = ProfileActivity.class;
+                break;
+            case R.id.nav_settings:
+                fragmentClass = SettingsActivity.class;
+                break;*/
+            case R.id.nav_logout:
+                fragmentClass=Login.class;
+                logout();
+                break;
+            default:
+                fragmentClass = MainActivity.class;
+        }
+
+        startActivity(new Intent(getApplicationContext(),fragmentClass));
+
+        // Highlight the selected item has been done by NavigationView
+        menuItem.setChecked(true);
+        // Set action bar title
+        setTitle(menuItem.getTitle());
+        // Close the navigation drawer
+        mDrawer.closeDrawers();
+    }
+
+    public void logout()
     {
         FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(getApplicationContext(),Login.class));
