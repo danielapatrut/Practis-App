@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
     ImageView mProfileImage;
     private MainPageFragment mMainPageFragment;
     private FrameLayout mFrameLayout;
-    private static int numberOfPagesCreated=0;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,11 +91,5 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.mainContainer,fragment);
         fragmentTransaction.commit();
-    }
-    public static void incrementPages(){
-        numberOfPagesCreated++;
-    }
-    public static int getNumberOfPagesCreated(){
-        return numberOfPagesCreated;
     }
 }

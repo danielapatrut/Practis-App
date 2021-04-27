@@ -1,11 +1,15 @@
 package com.techdevs.practis;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -15,10 +19,22 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import io.noties.markwon.Markwon;
 
 public class NewPageActivity extends AppCompatActivity {
 
@@ -31,7 +47,7 @@ public class NewPageActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private PageFragment mPageFragment;
     private Page mPage;
-
+    private boolean fromList=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +69,18 @@ public class NewPageActivity extends AppCompatActivity {
         firebaseAuth=FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
 
+        final Markwon markwon = Markwon.create(this);
+
         mPage=new Page();
+
+        if(getIntent().hasExtra("PAGE_TITLE")) {
+            mPage.setNewPage(getIntent().getBooleanExtra("IS_NEW",true));
+            mPage.setTitle(getIntent().getStringExtra("PAGE_TITLE"));
+            mPage.setContent(getIntent().getStringExtra("PAGE_CONTENT"));
+            mPage.setPageID(getIntent().getStringExtra("PAGE_ID"));
+            mPage.setHasCoverImage(getIntent().getBooleanExtra("HAS_PHOTO", false));
+            fromList=true;
+        }
 
         mPage.setUserID(firebaseAuth.getUid());
 
@@ -67,31 +94,48 @@ public class NewPageActivity extends AppCompatActivity {
         mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 mPage.setTitle(mPageFragment.getTitle());
                 mPage.setContent(mPageFragment.getContent());
-                MainActivity.incrementPages();
                 //save content to new page and add to list of tiles
-                //if it's new add to list
                 if(mPage.isNewPage()) {
-                    //save in db
-                    mPage.setNewPage(false);
-                    firebaseFirestore.collection("pages").document(String.valueOf(MainActivity.getNumberOfPagesCreated())).set(mPage);
+                    Query q = firebaseFirestore.collection("pages").orderBy("pageID", Query.Direction.DESCENDING).limit(1);
+                    q.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    int pageID = Integer.parseInt(document.getString("pageID"));
+                                    pageID++;
+
+                                        mPage.setPageID(String.valueOf(pageID));
+                                        if(!mPage.getTitle().equals("") && !mPage.getContent().equals("")) {
+                                            //save in db
+                                            mPage.setNewPage(false);
+                                            firebaseFirestore.collection("pages").document(String.valueOf(pageID)).set(mPage);
+                                            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                                        }else{
+                                            openSavingDialog();
+                                        }
+
+                                }
+                            }
+                        }
+                    });
                 }else {
                     //if it's old update
-
+                    firebaseFirestore.collection("pages").document(mPage.getPageID()).set(mPage);
+                    startActivity(new Intent(getApplicationContext(),MainActivity.class));
                 }
-
-                //go back to main page
-                startActivity(new Intent(getApplicationContext(),MainActivity.class));
             }
         });
+
+        //add image from gallery
         mAddImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //open image dialog
                 //change image for page
-                mPage.setHasCoverImage(false); //until then, it's false
+                mPage.setHasCoverImage(true); //until then, it's false
             }
         });
 
@@ -121,7 +165,7 @@ public class NewPageActivity extends AppCompatActivity {
         mMakeTextBold.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPageFragment.makeTextBold();
+                mPageFragment.makeTextBold(markwon);
             }
         });
 
@@ -140,8 +184,12 @@ public class NewPageActivity extends AppCompatActivity {
         });
 
         mPageFragment = new PageFragment();
+        mPageFragment.setmPage(mPage);
         replaceFragment(mPageFragment);
+
     }
+
+
     private void replaceFragment(Fragment fragment){
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.newPageContainer,fragment);
@@ -154,8 +202,7 @@ public class NewPageActivity extends AppCompatActivity {
     private void openColorDialog() {
         ColorDialog dialog = new ColorDialog(this);
         dialog.show();
-        //Window window = dialog.getWindow();
-        //window.setLayout(40,70);
+
         int[] location = new int[2];
         mButtonContainer.getLocationOnScreen(location);
         int x = location[0];
@@ -172,7 +219,7 @@ public class NewPageActivity extends AppCompatActivity {
         redColor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("red button");
+                mPageFragment.changeTextColor();
             }
         });
         Button blueColor = (Button)dialog.findViewById(R.id.blue);
@@ -211,5 +258,30 @@ public class NewPageActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void openSavingDialog() {
+        SavingDialog savingDialog = new SavingDialog(this);
+        savingDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        savingDialog.show();
+
+        Button continueEditing = (Button)savingDialog.findViewById(R.id.continueEditing);
+        continueEditing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                savingDialog.dismiss();
+            }
+        });
+        Button goHome = (Button)savingDialog.findViewById(R.id.goMain);
+        goHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),MainActivity.class));
+            }
+        });
+    }
+
+    public boolean isFromList() {
+        return fromList;
     }
 }

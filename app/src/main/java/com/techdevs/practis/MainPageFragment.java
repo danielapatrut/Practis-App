@@ -1,5 +1,6 @@
 package com.techdevs.practis;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -26,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainPageFragment extends Fragment {
+public class MainPageFragment extends Fragment implements MainPageRecyclerAdapter.ListItemClickListener{
 
     private RecyclerView mPagesListView;
     private List<Page> pageTiles;
@@ -50,7 +52,7 @@ public class MainPageFragment extends Fragment {
         pageTiles = new ArrayList<>();
         mPagesListView = getActivity().findViewById(R.id.pagesListView);
 
-        mRecyclerAdapter = new MainPageRecyclerAdapter(pageTiles);
+        mRecyclerAdapter = new MainPageRecyclerAdapter(pageTiles, this);
         mPagesListView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mPagesListView.setAdapter(mRecyclerAdapter);
         //connect to firebase
@@ -75,17 +77,19 @@ public class MainPageFragment extends Fragment {
                         }
                     }
                 });
-        //dummy pages
-        /*Page example = new Page("1",true,"Title");
-        pageTiles.add(example);
-        Page example2 = new Page("2",true,"Title2");
-        pageTiles.add(example2);
-        Page example3 = new Page("3",true,"Title3");
-        pageTiles.add(example3);
-        Page example4 = new Page(false,"No Img Title","Lorem ipsum dolor sit amet, consectetur adipiscing elit.");
-        pageTiles.add(example4);*/
-        //mRecyclerAdapter.notifyDataSetChanged();
 
         return view;
     }
+    public void onListItemClick(int clickedItemIndex) {
+        Page p = pageTiles.get(clickedItemIndex);
+        Intent newPageIntent=new Intent(getActivity(),NewPageActivity.class);
+        newPageIntent.putExtra("PAGE_TITLE",p.getTitle());
+        newPageIntent.putExtra("PAGE_CONTENT",p.getContent());
+        newPageIntent.putExtra("PAGE_ID",p.getPageID());
+        newPageIntent.putExtra("HAS_PHOTO",p.isHasCoverImage());
+        newPageIntent.putExtra("IS_NEW",p.isNewPage());
+        //go to new page
+        startActivity(newPageIntent);
+    }
+
 }
