@@ -8,5 +8,8 @@
     <string name="login_password">password</string>
     <string name="page_title">Title</string>
     <string name="page_content">Start typing...</string>
+    <string name="title_activity_help">HelpActivity</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
 
 </resources>

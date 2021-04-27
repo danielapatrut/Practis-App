@@ -21,6 +21,7 @@ import android.widget.EditText;
 
 import io.noties.markwon.Markwon;
 
+
 public class PageFragment extends Fragment {
 
     private Page mPage;

@@ -9,19 +9,28 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Practis">
-        <activity android:name=".NewPageActivity"></activity>
-        <activity android:name=".Login" />
-        <activity android:name=".Register">
-
+        <activity
+            android:name=".HelpActivity"
+            android:label="@string/title_activity_help"
+            android:theme="@style/Theme.Practis.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"
-            android:theme="@style/Theme.Practis.NoActionBar">
+        <activity android:name=".NewPageActivity" />
+        <activity android:name=".Login" />
+        <activity android:name=".Register">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/Theme.Practis.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
