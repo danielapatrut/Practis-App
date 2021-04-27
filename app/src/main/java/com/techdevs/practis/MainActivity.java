@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //open menu
-                //startActivity(new Intent(getApplicationContext(),MenuActivity.class));
+                startActivity(new Intent(getApplicationContext(),GalleryActivity.class));
             }
         });
         mNewPageButton.setOnClickListener(new View.OnClickListener() {
