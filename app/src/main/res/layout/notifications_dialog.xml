@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/notifDialog"
+    android:layout_width="350dp"
+    android:layout_height="200dp"
+    android:background="@drawable/rounded_pop_up">
+
+    <TextView
+        android:id="@+id/notifText"
+        android:layout_width="330dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="36dp"
+        android:fontFamily="@font/montserrat_light"
+        android:gravity="center"
+        android:hint="@string/notif_reminder"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Spinner
+        android:id="@+id/dropDown"
+        android:layout_width="277dp"
+        android:layout_height="34dp"
+        android:spinnerMode="dropdown"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.506"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/notifText"
+        app:layout_constraintVertical_bias="0.468" />
+</androidx.constraintlayout.widget.ConstraintLayout>
