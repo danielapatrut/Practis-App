@@ -19,8 +19,14 @@ public class MainPageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
     private static int WITH_IMAGE = 0;
     private static int WITHOUT_IMAGE = 1;
     public List<Page> pageTiles;
-    public MainPageRecyclerAdapter(List<Page> pageTiles) {
+    public interface ListItemClickListener {
+        void onListItemClick(int clickedItemIndex);
+    }
+    final private ListItemClickListener clickHandler;
+
+    public MainPageRecyclerAdapter(List<Page> pageTiles, ListItemClickListener listener) {
         this.pageTiles=pageTiles;
+        clickHandler=listener;
     }
 
     @NonNull
@@ -29,13 +35,6 @@ public class MainPageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
         View view;
         if(viewType == WITH_IMAGE){
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.page_list_item, parent,false);
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    System.out.println("pressed a tile");
-                    //startActivity(new Intent(getApplicationContext(),NewPageActivity.class));
-                }
-            });
             return new ImageViewHolder(view);
         }else{
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.page_list_item_no_image, parent,false);
@@ -47,8 +46,9 @@ public class MainPageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int position) {
 
-        if(getItemViewType(position)==WITH_IMAGE)
+        if(getItemViewType(position)==WITH_IMAGE){
             ((ImageViewHolder)viewHolder).setPageTitle(pageTiles.get(position).getTitle());
+        }
         else
         {
             String title = pageTiles.get(position).getTitle();
@@ -71,7 +71,9 @@ public class MainPageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
         return pageTiles.size();
     }
 
-    public class ImageViewHolder extends RecyclerView.ViewHolder{
+
+
+    public class ImageViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private View mView;
         private TextView pageTitle;
@@ -79,13 +81,18 @@ public class MainPageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
             super(itemView);
             mView=itemView;
         }
+        //set image to tile
         public void setPageTitle(String title){
             pageTitle=mView.findViewById(R.id.pageTitle);
             pageTitle.setText(title);
         }
 
+        @Override
+        public void onClick(View v) {
+            clickHandler.onListItemClick(getAdapterPosition());
+        }
     }
-    public class NoImageViewHolder extends RecyclerView.ViewHolder{
+    public class NoImageViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private View mView;
         private TextView pageTitle;
@@ -93,6 +100,7 @@ public class MainPageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
         public NoImageViewHolder(@NonNull View itemView) {
             super(itemView);
             mView=itemView;
+            itemView.setOnClickListener(this);
         }
         public void setPageTitle(String title){
             pageTitle=mView.findViewById(R.id.pageTitle);
@@ -102,6 +110,11 @@ public class MainPageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
             pageContent=mView.findViewById(R.id.pageContent);
             pageContent.setText(content);
         }
+        @Override
+        public void onClick(View v) {
+            clickHandler.onListItemClick(getAdapterPosition());
+        }
 
     }
+
 }
