@@ -45,11 +45,53 @@
             app:layout_constraintHorizontal_bias="0.495"
             app:layout_constraintStart_toStartOf="parent" />
 
+        <RelativeLayout
+            android:id="@+id/notifButton"
+            android:layout_width="300dp"
+            android:layout_height="48dp"
+            android:layout_marginTop="48dp"
+            android:background="@drawable/rounded_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.504"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="14dp"
+                android:hint="@string/notifications_string"
+                android:textColorHint="@color/white"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/notifTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="14dp"
+                android:textColor="@color/white" />
+        </RelativeLayout>
+
         <Button
             android:id="@+id/timeSpentBtn"
             android:layout_width="300dp"
             android:layout_height="60dp"
-            android:layout_marginTop="28dp"
+            android:layout_marginTop="16dp"
             android:gravity="left|center_vertical"
             android:hint="@string/time_spent_string"
             android:textColor="#FFFFFF"
@@ -57,25 +99,9 @@
             app:backgroundTint="#BC74D7"
             app:cornerRadius="25dip"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.495"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/notificationsBtn" />
-
-        <Button
-            android:id="@+id/notificationsBtn"
-            android:layout_width="300dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="32dp"
-            android:gravity="center_vertical"
-            android:hint="@string/notifications_string"
-            android:textColor="#FFFFFF"
-            android:textColorHint="@color/white"
-            app:backgroundTint="#BC74D7"
-            app:cornerRadius="25dip"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.504"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+            app:layout_constraintTop_toBottomOf="@+id/notifButton" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/linearLayout"

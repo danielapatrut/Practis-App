@@ -109,10 +109,10 @@ public class MainActivity extends AppCompatActivity {
             case R.id.nav_home:
                 fragmentClass = MainActivity.class;
                 break;
-            /*case R.id.nav_calendar:
+            case R.id.nav_calendar:
                 fragmentClass = CalendarActivity.class;
                 break;
-            case R.id.nav_urgent_task:
+            /*case R.id.nav_urgent_task:
                 fragmentClass = UrgentTasksActivity.class;
                 break;*/
             case R.id.nav_gallery:

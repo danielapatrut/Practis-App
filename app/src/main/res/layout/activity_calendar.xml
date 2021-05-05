@@ -2,27 +2,15 @@
 <androidx.drawerlayout.widget.DrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F6E2FC"
-    tools:context=".MainActivity">
-
-    <Button
-        android:id="@+id/logoutButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="logout"
-        android:text="LogOut"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.05"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.976" />
+    tools:context=".CalendarActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/linearLayout"
@@ -67,51 +55,85 @@
                 app:srcCompat="@drawable/user" />
         </androidx.cardview.widget.CardView>
 
-        <TextView
-            android:id="@+id/welcomeLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="56dp"
-            android:layout_marginRight="56dp"
-            android:layout_marginBottom="4dp"
-            android:fontFamily="@font/montserrat_light"
-            android:text="Welcome, "
-            android:textColor="#36283C"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/cardView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/newPageButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
-        android:layout_marginBottom="28dp"
-        android:clickable="true"
-        android:src="@drawable/plus_sign"
-        app:tint="@color/white"
-        app:backgroundTint="#BC74D7"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
     <FrameLayout
-        android:id="@+id/mainContainer"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="3dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/frameLayout2"
+        android:layout_width="350dp"
+        android:layout_height="306dp"
+        android:layout_marginTop="28dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/pagesListView"
+        <CalendarView
+            android:id="@+id/calendarView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:background="@color/white" />
     </FrameLayout>
 
+    <LinearLayout
+        android:layout_width="351dp"
+        android:layout_height="280dp"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/rounded_rectangle"
+        android:orientation="vertical"
+        android:paddingLeft="10dp"
+        android:paddingTop="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout2"
+        app:layout_constraintVertical_bias="0.0">
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/today_tasks"
+            android:paddingBottom="5dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            android:textSize="26sp" />
+
+        <View
+            android:id="@+id/divider2"
+            android:layout_width="310dp"
+            android:layout_height="1dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="4dp"
+            android:background="#707070"
+            android:paddingBottom="5dp" />
+
+        <FrameLayout
+            android:id="@+id/taskListContainer"
+            android:layout_width="325dp"
+            android:layout_height="152dp">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/tasksListView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </FrameLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/addTask"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginEnd="15dp"
+            android:layout_marginRight="15dp"
+            android:clickable="true"
+            android:src="@drawable/plus_sign"
+            app:backgroundTint="#BC74D7"
+            app:elevation="0dp"
+            app:tint="@color/white" />
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
     <com.google.android.material.navigation.NavigationView
         android:id="@+id/nvView"
