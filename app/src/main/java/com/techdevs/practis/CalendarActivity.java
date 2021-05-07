@@ -162,10 +162,11 @@ public class CalendarActivity extends AppCompatActivity {
                     public void onComplete(@NonNull com.google.android.gms.tasks.Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                int taskID = Integer.parseInt(document.getString("taskID"));
-                                taskID++;
-                                newTask.setTaskID(String.valueOf(taskID));
-                                firebaseFirestore.collection("tasks").document(String.valueOf(taskID)).set(newTask);
+                                Long taskID = (Long) document.get("taskID");
+                                int tskID = taskID.intValue();
+                                tskID++;
+                                newTask.setTaskID(tskID);
+                                firebaseFirestore.collection("tasks").document(String.valueOf(tskID)).set(newTask);
                             }
                         }
                     }

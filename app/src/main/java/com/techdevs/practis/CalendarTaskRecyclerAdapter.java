@@ -27,6 +27,8 @@ public class CalendarTaskRecyclerAdapter extends RecyclerView.Adapter<CalendarTa
     @Override
     public void onBindViewHolder(@NonNull CalendarTaskViewHolder viewHolder, int position) {
         viewHolder.setTaskName(tasks.get(position).getName());
+        if(tasks.get(position).isUrgent())
+            viewHolder.setTaskUrgent();
     }
 
     @Override
@@ -38,6 +40,7 @@ public class CalendarTaskRecyclerAdapter extends RecyclerView.Adapter<CalendarTa
 
         private View mView;
         private CheckBox mTask;
+        ImageView urgent;
         public CalendarTaskViewHolder(@NonNull View itemView) {
             super(itemView);
             mView=itemView;
@@ -46,6 +49,10 @@ public class CalendarTaskRecyclerAdapter extends RecyclerView.Adapter<CalendarTa
         public void setTaskName(String title){
             mTask = mView.findViewById(R.id.task);
             mTask.setText(title);
+        }
+        public void setTaskUrgent(){
+            urgent = mView.findViewById(R.id.urgentIcon);
+            urgent.setBackgroundResource(R.drawable.urgent_mark);
         }
     }
 }

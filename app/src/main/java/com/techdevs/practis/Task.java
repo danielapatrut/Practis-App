@@ -6,9 +6,9 @@ public class Task {
     private boolean done;
     private boolean urgent;
     private String dueDate;
-    private String taskID;
+    private int taskID;
 
-    public Task(String userID, String name, boolean done, boolean urgent, String dueDate, String taskID) {
+    public Task(String userID, String name, boolean done, boolean urgent, String dueDate, int taskID) {
         this.userID = userID;
         this.name = name;
         this.done = done;
@@ -60,11 +60,11 @@ public class Task {
         this.dueDate = dueDate;
     }
 
-    public String getTaskID() {
+    public int getTaskID() {
         return taskID;
     }
 
-    public void setTaskID(String taskID) {
+    public void setTaskID(int taskID) {
         this.taskID = taskID;
     }
 }

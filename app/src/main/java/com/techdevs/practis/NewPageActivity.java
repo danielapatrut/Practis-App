@@ -85,7 +85,7 @@ public class NewPageActivity extends AppCompatActivity {
             mPage.setNewPage(getIntent().getBooleanExtra("IS_NEW",true));
             mPage.setTitle(getIntent().getStringExtra("PAGE_TITLE"));
             mPage.setContent(getIntent().getStringExtra("PAGE_CONTENT"));
-            mPage.setPageID(getIntent().getStringExtra("PAGE_ID"));
+            mPage.setPageID(getIntent().getIntExtra("PAGE_ID",0));
             mPage.setHasCoverImage(getIntent().getBooleanExtra("HAS_PHOTO", false));
             fromList=true;
         }
@@ -112,14 +112,16 @@ public class NewPageActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()) {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
-                                    int pageID = Integer.parseInt(document.getString("pageID"));
-                                    pageID++;
 
-                                        mPage.setPageID(String.valueOf(pageID));
+                                    Long pageID = (Long) document.get("pageID");
+                                    int pgID = pageID.intValue();
+                                    pgID++;
+
+                                        mPage.setPageID(pgID);
                                         if(!mPage.getTitle().equals("") && !mPage.getContent().equals("")) {
                                             //save in db
                                             mPage.setNewPage(false);
-                                            firebaseFirestore.collection("pages").document(String.valueOf(pageID)).set(mPage);
+                                            firebaseFirestore.collection("pages").document(String.valueOf(pgID)).set(mPage);
                                             startActivity(new Intent(getApplicationContext(),MainActivity.class));
                                         }else{
                                             openSavingDialog();
@@ -131,7 +133,7 @@ public class NewPageActivity extends AppCompatActivity {
                     });
                 }else {
                     //if it's old update
-                    firebaseFirestore.collection("pages").document(mPage.getPageID()).set(mPage);
+                    firebaseFirestore.collection("pages").document(String.valueOf(mPage.getPageID())).set(mPage);
                     startActivity(new Intent(getApplicationContext(),MainActivity.class));
                 }
             }
