@@ -119,10 +119,10 @@ public class MainActivity extends AppCompatActivity {
             case R.id.nav_gallery:
                 fragmentClass = GalleryActivity.class;
                 break;
-            /*case R.id.nav_profile:
-                fragmentClass = ProfileActivity.class;
+            case R.id.nav_profile:
+                fragmentClass = MyProfileActivity.class;
                 break;
-            case R.id.nav_settings:
+            /*case R.id.nav_settings:
                 fragmentClass = SettingsActivity.class;
                 break;*/
             case R.id.nav_logout:
