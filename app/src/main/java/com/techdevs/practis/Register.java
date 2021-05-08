@@ -100,6 +100,7 @@ public class Register extends AppCompatActivity {
                             Map<String,Object> user = new HashMap<>();
                             user.put("userName", userName);
                             user.put("email", email);
+                            user.put("password", password);
                             documentReference.set(user).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
