@@ -183,11 +183,12 @@ public class GalleryActivity extends AppCompatActivity {
                                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                 if (task.isSuccessful()) {
                                                     for (QueryDocumentSnapshot document : task.getResult()) {
-                                                        int pageID = Integer.parseInt(document.getString("imageID"));
-                                                        pageID++;
-                                                        mImage.setImageID(String.valueOf(pageID));
+                                                        Long pageID = (Long) document.get("imageID");
+                                                        int imgID = pageID.intValue();
+                                                        imgID++;
+                                                        mImage.setImageID(imgID);
                                                         //save in db
-                                                        firebaseFirestore.collection("images").document(String.valueOf(pageID)).set(mImage);
+                                                        firebaseFirestore.collection("images").document(String.valueOf(imgID)).set(mImage);
                                                         startActivity(new Intent(getApplicationContext(),GalleryActivity.class));
                                                     }
                                                 }

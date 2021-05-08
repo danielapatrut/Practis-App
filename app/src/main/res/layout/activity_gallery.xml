@@ -100,6 +100,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="@android:color/white"
-        app:menu="@menu/drawer_menu" />
+        android:background="#F6E2FC"
+        app:menu="@menu/drawer_menu"
+        app:headerLayout="@layout/menu_header"/>
 </androidx.drawerlayout.widget.DrawerLayout>

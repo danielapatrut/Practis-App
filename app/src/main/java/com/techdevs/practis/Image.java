@@ -5,7 +5,7 @@ import android.net.Uri;
 public class Image {
     private String uri;
     private String userID;
-    private String imageID;
+    private int imageID;
 
     public Image() {
     }
@@ -30,11 +30,11 @@ public class Image {
         this.userID = userID;
     }
 
-    public String getImageID() {
+    public int getImageID() {
         return imageID;
     }
 
-    public void setImageID(String imageID) {
+    public void setImageID(int imageID) {
         this.imageID = imageID;
     }
 }

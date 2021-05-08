@@ -20,6 +20,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -44,7 +45,7 @@ public class MyProfileActivity extends AppCompatActivity {
 
     private final int PICK_IMAGE_REQUEST = 71;
     private Uri filePath;
-    EditText   mEditName;
+    TextView   mEditName;
     TextView mWelcomeLabel,mEditEmail,mEditPassword;
     ImageView mEditNameButton, mAddProfileImage;
     Button mMenuButton;
@@ -55,6 +56,7 @@ public class MyProfileActivity extends AppCompatActivity {
     String userID;
     private DrawerLayout mDrawer;
     private NavigationView nvDrawer;
+    ImageView myProfileImage,profileImage;
 
 
     @Override
@@ -75,6 +77,8 @@ public class MyProfileActivity extends AppCompatActivity {
         firebaseFirestore = FirebaseFirestore.getInstance();
         mDrawer = findViewById(R.id.drawer_layout);
         nvDrawer = findViewById(R.id.nvView);
+        myProfileImage = findViewById(R.id.myProfileImage);
+        profileImage = findViewById(R.id.profileImage);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser(); //current logged in user
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
@@ -90,6 +94,18 @@ public class MyProfileActivity extends AppCompatActivity {
                     mEditEmail.setText(currentUser.getEmail());
                     mEditName.setText(currentUser.getUserName());
                     mEditPassword.setText(currentUser.getPassword());
+                }
+            });
+            firestore.collection("profileimages").whereEqualTo("userID",user.getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Image profileImg = document.toObject(Image.class);
+                            Glide.with(getApplicationContext()).load(profileImg.getUri()).into(myProfileImage);
+                            Glide.with(getApplicationContext()).load(profileImg.getUri()).into(profileImage);
+                        }
+                    }
                 }
             });
         }
@@ -221,6 +237,7 @@ public class MyProfileActivity extends AppCompatActivity {
         {
             filePath = data.getData();
             uploadImageToFirebase(filePath);
+
         }
     }
 
@@ -248,11 +265,12 @@ public class MyProfileActivity extends AppCompatActivity {
                                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                                 if (task.isSuccessful()) {
                                                     for (QueryDocumentSnapshot document : task.getResult()) {
-                                                        int imageID = Integer.parseInt(document.getString("imageID"));
-                                                        imageID++;
-                                                        mImage.setImageID(String.valueOf(imageID));
+                                                        Long imageID = (Long) document.get("imageID");
+                                                        int imgID = imageID.intValue();
+                                                        imgID++;
+                                                        mImage.setImageID(imgID);
                                                         //save in db
-                                                        firebaseFirestore.collection("profileimages").document(String.valueOf(imageID)).set(mImage);
+                                                        firebaseFirestore.collection("profileimages").document(String.valueOf(imgID)).set(mImage);
                                                         startActivity(new Intent(getApplicationContext(),MyProfileActivity.class));
                                                     }
                                                 }
@@ -266,5 +284,6 @@ public class MyProfileActivity extends AppCompatActivity {
 
 
         }
+        //myProfileImage.setImageURI(imguri);
     }
 }
