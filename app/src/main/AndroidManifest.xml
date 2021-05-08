@@ -17,6 +17,19 @@
         <activity android:name=".CalendarActivity"></activity>
         <activity android:name=".SettingsActivity" />
         <activity android:name=".GalleryActivity" />
+
+        <activity
+            android:name=".HelpActivity"
+            android:label="@string/title_activity_help"
+            android:theme="@style/Theme.Practis.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        
         <activity android:name=".NewPageActivity" />
         <activity android:name=".Login" />
         <activity android:name=".Register">
@@ -26,7 +39,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/Theme.Practis.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

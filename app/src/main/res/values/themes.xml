@@ -13,6 +13,7 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
     <style name="CalenderViewCustom" parent="Theme.AppCompat">
         <item name="colorAccent">#F0BBF8</item>
      <item name="colorOnPrimary">@color/black</item>
@@ -26,4 +27,14 @@
     <style name="CalenderViewWeekCustomText" parent="android:TextAppearance.DeviceDefault.Small">
         <item name="android:textColor">#707070</item>
     </style>
+
+    <style name="Theme.Practis.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <!--<style name="Theme.Practis.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" /> -->
+
+    <!--<style name="Theme.Practis.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />-->
+
 </resources>

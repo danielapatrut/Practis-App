@@ -32,6 +32,7 @@ android {
 
 dependencies {
 
+
     implementation 'com.squareup.moshi:moshi:1.6.0'
     final def markwon_version = '4.6.2'
     implementation "io.noties.markwon:core:$markwon_version"
@@ -54,6 +55,8 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     implementation platform('com.google.firebase:firebase-bom:26.7.0')
     implementation 'com.google.firebase:firebase-analytics'
+
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation "androidx.lifecycle:lifecycle-viewmodel:2.2.0"
+
 }

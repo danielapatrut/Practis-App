@@ -8,6 +8,11 @@
     <string name="login_password">password</string>
     <string name="page_title">Title</string>
     <string name="page_content">Start typing...</string>
+
+    <string name="title_activity_help">HelpActivity</string>
+    <string name="tab_text_1">Tab 1</string>
+    <string name="tab_text_2">Tab 2</string>
+
     <string name="no_title_content">No title and/or content have been set. Continue editing or discard current page and go to the main screen.</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -19,5 +24,6 @@
     <string name="today_tasks">Today`s tasks</string>
     <string name="task_title">Task</string>
     <string name="due_date">Choose the Due Date</string>
+
 
 </resources>
