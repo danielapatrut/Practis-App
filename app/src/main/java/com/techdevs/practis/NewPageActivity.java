@@ -115,13 +115,12 @@ public class NewPageActivity extends AppCompatActivity {
                                     Long pageID = (Long) document.get("pageID");
                                     int pgID = pageID.intValue();
                                     pgID++;
-
-                                    mPage.setPageID(pgID);
-                                    if(!mPage.getTitle().equals("") && !mPage.getContent().equals("")) {
-                                        //save in db
-                                        mPage.setNewPage(false);
-                                        firebaseFirestore.collection("pages").document(String.valueOf(pgID)).set(mPage);
-                                        startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                                        mPage.setPageID(pgID);
+                                        if(!mPage.getTitle().equals("") && !mPage.getContent().equals("")) {
+                                            //save in db
+                                            mPage.setNewPage(false);
+                                            firebaseFirestore.collection("pages").document(String.valueOf(pgID)).set(mPage);
+                                            startActivity(new Intent(getApplicationContext(),MainActivity.class));
                                         }else{
                                             openSavingDialog();
                                         }
@@ -196,8 +195,65 @@ public class NewPageActivity extends AppCompatActivity {
         mPageFragment.setmPage(mPage);
         replaceFragment(mPageFragment);
         setupDrawerContent(nvDrawer);
+
+    }
+    private void setupDrawerContent(NavigationView navigationView) {
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        selectDrawerItem(menuItem);
+                        return true;
+                    }
+                });
     }
 
+    public void selectDrawerItem(MenuItem menuItem) {
+
+        Class fragmentClass;
+        switch(menuItem.getItemId()) {
+            case R.id.nav_home:
+                fragmentClass = MainActivity.class;
+                break;
+            case R.id.nav_calendar:
+                fragmentClass = CalendarActivity.class;
+                break;
+            /*case R.id.nav_urgent_task:
+                fragmentClass = UrgentTasksActivity.class;
+                break;*/
+            case R.id.nav_gallery:
+                fragmentClass = GalleryActivity.class;
+                break;
+            /*case R.id.nav_profile:
+                fragmentClass = ProfileActivity.class;
+                break;*/
+            case R.id.nav_settings:
+                fragmentClass = SettingsActivity.class;
+                break;
+            case R.id.nav_logout:
+                fragmentClass=Login.class;
+                logout();
+                break;
+            default:
+                fragmentClass = MainActivity.class;
+        }
+
+        startActivity(new Intent(getApplicationContext(),fragmentClass));
+
+        // Highlight the selected item has been done by NavigationView
+        menuItem.setChecked(true);
+        // Set action bar title
+        setTitle(menuItem.getTitle());
+        // Close the navigation drawer
+        mDrawer.closeDrawers();
+    }
+
+    public void logout()
+    {
+        FirebaseAuth.getInstance().signOut();
+        startActivity(new Intent(getApplicationContext(),Login.class));
+        finish();
+    }
 
     private void replaceFragment(Fragment fragment){
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
