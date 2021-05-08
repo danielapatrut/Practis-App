@@ -48,6 +48,8 @@
         android:layout_width="260dp"
         android:layout_height="40dp"
         android:layout_marginTop="16dp"
+        android:hint="@string/due_date"
+        android:textColorHint="#707070"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/importanceSpinner" />

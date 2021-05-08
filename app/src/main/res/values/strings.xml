@@ -18,5 +18,6 @@
     <string name="notif_reminder">When shall we send you a reminder for an urgent task that is due?</string>
     <string name="today_tasks">Today`s tasks</string>
     <string name="task_title">Task</string>
+    <string name="due_date">Choose the Due Date</string>
 
 </resources>
