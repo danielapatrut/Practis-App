@@ -4,21 +4,15 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -29,58 +23,33 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-public class SettingsActivity extends AppCompatActivity {
+public class UrgentTasksActivity extends AppCompatActivity {
 
+TextView today, tomorrow;
     Button mMenuButton;
     ImageView mProfileImage;
     private DrawerLayout mDrawer;
     private NavigationView nvDrawer;
-    Button  timeButton, helpButton, logoutButton;
-    TextView notifTime;
-    RelativeLayout notificationsButton;
+    TodayUTFragment todayUTFragment;
+    TmrUTFragment tmrUTFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
+        setContentView(R.layout.activity_urgent_tasks);
         mProfileImage = findViewById(R.id.profileImage);
         mMenuButton = findViewById(R.id.menuButton);
+        today = findViewById(R.id.today);
+        tomorrow=findViewById(R.id.tomorrow);
         mDrawer = findViewById(R.id.drawer_layout);
         nvDrawer = findViewById(R.id.nvView);
-        notificationsButton = findViewById(R.id.notifButton);
-        timeButton = findViewById(R.id.timeSpentBtn);
-        helpButton = findViewById(R.id.helpBtn);
-        logoutButton = findViewById(R.id.logoutBtn);
-        notifTime=(TextView)findViewById(R.id.notifTime);
-        notifTime.bringToFront();
-        //notifications
-        notificationsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openNotifDialog();
-            }
-        });
-        //time
-        
-        //help
-        helpButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),HelpActivity.class));
-            }
-        });
-
-        logoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                logout();
-            }
-        });
-
+        todayUTFragment = new TodayUTFragment();
+        tmrUTFragment = new TmrUTFragment();
+        replaceFragmentToday(todayUTFragment);
+        replaceFragmentTomorrow(tmrUTFragment);
         mMenuButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //open menu
                 mDrawer.openDrawer(GravityCompat.START);
             }
         });
@@ -96,35 +65,6 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
         setupDrawerContent(nvDrawer);
-    }
-
-
-    public void openNotifDialog(){
-        NotificationsDialog notificationsDialog = new NotificationsDialog(this);
-        notificationsDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        notificationsDialog.show();
-        Spinner dropdown;
-        dropdown=notificationsDialog.findViewById(R.id.dropDown);
-        Button ok = notificationsDialog.findViewById(R.id.okButton);
-        ok.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                notificationsDialog.dismiss();
-            }
-        });
-        dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Object item = parent.getItemAtPosition(position);
-                if(position!=0)
-                    notifTime.setText(item.toString());
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
     }
     private void setupDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(
@@ -153,7 +93,7 @@ public class SettingsActivity extends AppCompatActivity {
             case R.id.nav_gallery:
                 fragmentClass = GalleryActivity.class;
                 break;
-                case R.id.nav_profile:
+            case R.id.nav_profile:
                 fragmentClass = MyProfileActivity.class;
                 break;
             case R.id.nav_settings:
@@ -182,5 +122,15 @@ public class SettingsActivity extends AppCompatActivity {
         FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(getApplicationContext(),Login.class));
         finish();
+    }
+    private void replaceFragmentToday(Fragment fragment){
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.todayUT,fragment);
+        fragmentTransaction.commit();
+    }
+    private void replaceFragmentTomorrow(Fragment fragment){
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.tmrUT,fragment);
+        fragmentTransaction.commit();
     }
 }

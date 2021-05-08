@@ -82,12 +82,16 @@ public class MainPageFragment extends Fragment implements MainPageRecyclerAdapte
     }
     public void onListItemClick(int clickedItemIndex) {
         Page p = pageTiles.get(clickedItemIndex);
+        System.out.println(p.getTitle());
         Intent newPageIntent=new Intent(getActivity(),NewPageActivity.class);
         newPageIntent.putExtra("PAGE_TITLE",p.getTitle());
         newPageIntent.putExtra("PAGE_CONTENT",p.getContent());
         newPageIntent.putExtra("PAGE_ID",p.getPageID());
         newPageIntent.putExtra("HAS_PHOTO",p.isHasCoverImage());
         newPageIntent.putExtra("IS_NEW",p.isNewPage());
+        if(p.isHasCoverImage()){
+            newPageIntent.putExtra("PAGE_URI",p.getUri());
+        }
         //go to new page
         startActivity(newPageIntent);
     }

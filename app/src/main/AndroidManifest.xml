@@ -14,12 +14,11 @@
         android:roundIcon="@mipmap/ic_launcher_custom_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Practis">
-        <activity android:name=".MyProfileActivity"></activity>
-        <activity
-            android:name=".HelpActivity"
-        />
+        <activity android:name=".UrgentTasksActivity"></activity>
+        <activity android:name=".MyProfileActivity" />
+        <activity android:name=".HelpActivity" />
         <activity android:name=".GalleryActivity" /> <!-- <activity android:name=".HelpActivity" /> -->
-        <activity android:name=".CalendarActivity"></activity>
+        <activity android:name=".CalendarActivity" />
         <activity android:name=".SettingsActivity" />
         <activity android:name=".NewPageActivity" />
         <activity android:name=".Login" />
