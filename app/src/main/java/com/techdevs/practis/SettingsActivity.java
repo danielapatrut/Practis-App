@@ -2,9 +2,16 @@ package com.techdevs.practis;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -29,15 +36,19 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.Calendar;
+
 public class SettingsActivity extends AppCompatActivity {
 
     Button mMenuButton;
     ImageView mProfileImage;
     private DrawerLayout mDrawer;
     private NavigationView nvDrawer;
-    Button  timeButton, helpButton, logoutButton;
+    Button helpButton, logoutButton;
     TextView notifTime;
     RelativeLayout notificationsButton;
+    public static boolean sendNotifs = false;
+    private static final String NOTIFICATION_CHANNEL_ID = "my_channel";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +59,6 @@ public class SettingsActivity extends AppCompatActivity {
         mDrawer = findViewById(R.id.drawer_layout);
         nvDrawer = findViewById(R.id.nvView);
         notificationsButton = findViewById(R.id.notifButton);
-        timeButton = findViewById(R.id.timeSpentBtn);
         helpButton = findViewById(R.id.helpBtn);
         logoutButton = findViewById(R.id.logoutBtn);
         notifTime=(TextView)findViewById(R.id.notifTime);
@@ -95,9 +105,22 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             }
         });
+       if(sendNotifs) {
+            Intent notifyIntent = new Intent(this, MyReceiver.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast
+                    (this, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR_OF_DAY, 20);
+            calendar.set(Calendar.MINUTE, 9);
+            calendar.set(Calendar.SECOND, 00);
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),1000 * 60 * 60 * 24,  pendingIntent);
+            System.out.println("Selected");
+        }else
+            System.out.println("not selected");
+
         setupDrawerContent(nvDrawer);
     }
-
 
     public void openNotifDialog(){
         NotificationsDialog notificationsDialog = new NotificationsDialog(this);
@@ -116,8 +139,10 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Object item = parent.getItemAtPosition(position);
-                if(position!=0)
-                    notifTime.setText(item.toString());
+                //notifTime.setText(item.toString());
+                if(position==0)
+                    sendNotifs = true;
+                else sendNotifs=false;
             }
 
             @Override

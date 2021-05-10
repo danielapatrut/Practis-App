@@ -35,7 +35,7 @@ public class NotificationsDialog extends Dialog implements android.view.View.OnC
         setContentView(R.layout.notifications_dialog);
         okButton = findViewById(R.id.okButton);
         dropdown = (Spinner) findViewById(R.id.dropDown);
-        String[] items = new String[]{"Select a time","30 mins before", "1 hr before", "2 hrs before", "5 hrs before", "12 hrs before"};
+        String[] items = new String[]{"Send notifications","Do not send me notifications"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(mActivity, android.R.layout.simple_spinner_item, items);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dropdown.setAdapter(adapter);
