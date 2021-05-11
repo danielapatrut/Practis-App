@@ -1,5 +1,6 @@
 package com.techdevs.practis;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -7,9 +8,9 @@ import androidx.fragment.app.FragmentStatePagerAdapter;
 public class HelpPager extends FragmentStatePagerAdapter {
 
     int tabCount;
-
+   // @NonNull FragmentManager fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT;
     public HelpPager(FragmentManager fm, int tabCount){
-        super(fm);
+        super(fm,BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         this.tabCount=tabCount;
     }
 
