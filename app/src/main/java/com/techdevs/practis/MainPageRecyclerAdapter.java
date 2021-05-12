@@ -2,6 +2,7 @@ package com.techdevs.practis;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -141,7 +142,7 @@ public class MainPageRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.V
         }
         public void setPageContent(String content){
             pageContent=mView.findViewById(R.id.pageContent);
-            pageContent.setText(content);
+            pageContent.setText(Html.fromHtml(content).toString());
         }
         @Override
         public void onClick(View v) {

@@ -20,7 +20,7 @@
     <string name="time_spent_string">Time Spent Today</string>
     <string name="logout_button">Logout</string>
     <string name="help_button">Help</string>
-    <string name="notif_reminder">When shall we send you a reminder for an urgent task that is due?</string>
+    <string name="notif_reminder">Shall we send you a reminder per day for an urgent task that is due?</string>
     <string name="today_tasks">Today`s tasks</string>
     <string name="task_title">Task</string>
     <string name="due_date">Choose the Due Date</string>

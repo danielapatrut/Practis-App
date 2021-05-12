@@ -63,6 +63,7 @@ public class SettingsActivity extends AppCompatActivity {
         logoutButton = findViewById(R.id.logoutBtn);
         notifTime=(TextView)findViewById(R.id.notifTime);
         notifTime.bringToFront();
+
         //notifications
         notificationsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,13 +112,13 @@ public class SettingsActivity extends AppCompatActivity {
                     (this, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
             Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.HOUR_OF_DAY, 20);
-            calendar.set(Calendar.MINUTE, 9);
+            calendar.set(Calendar.HOUR_OF_DAY, 8);
+            calendar.set(Calendar.MINUTE, 00);
             calendar.set(Calendar.SECOND, 00);
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),1000 * 60 * 60 * 24,  pendingIntent);
-            System.out.println("Selected");
+            notifTime.setText("Send notifications");
         }else
-            System.out.println("not selected");
+            notifTime.setText("Do not send");
 
         setupDrawerContent(nvDrawer);
     }
@@ -133,16 +134,25 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 notificationsDialog.dismiss();
+                Intent intent = getIntent();
+                finish();
+                startActivity(intent);
             }
         });
         dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Object item = parent.getItemAtPosition(position);
-                //notifTime.setText(item.toString());
                 if(position==0)
+                {
                     sendNotifs = true;
-                else sendNotifs=false;
+                    notifTime.setText(item.toString());
+                }
+                else {
+                    sendNotifs=false;
+                    notifTime.setText("Do not send");
+                }
+
             }
 
             @Override

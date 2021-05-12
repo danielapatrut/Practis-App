@@ -26,15 +26,15 @@ import java.util.concurrent.Executors;
 
 import io.noties.markwon.Markwon;
 import io.noties.markwon.recycler.MarkwonAdapter;
-
+import jp.wasabeef.richeditor.RichEditor;
 
 
 public class PageFragment extends Fragment {
 
     private Page mPage;
     private EditText mTitle, mContent;
+    public RichEditor editor;
     CharacterStyle styleItalic;
-    final MarkwonAdapter adapter = MarkwonAdapter.create(R.layout.fragment_page, R.id.pageContentText);
 
     public PageFragment() {
         // Required empty public constructor
@@ -51,13 +51,11 @@ public class PageFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         mTitle=view.findViewById(R.id.pageTitleText);
-        mContent=view.findViewById(R.id.pageContentText);
+        //mContent=view.findViewById(R.id.pageContentText);
+        editor = view.findViewById(R.id.editor);
+        editor.setPlaceholder("Start typing...");
+        editor.setEditorFontSize(26);
         final Markwon markwon = Markwon.create(getActivity());
-        //final Node node = markwon.parse("Are **you** still there?");
-        // create styled text from parsed Node
-        //final Spanned markdown = markwon.render(node);
-        // use it on a TextView
-        //markwon.setParsedMarkdown(mTitle, markdown);
 
         //dynamically change page title from activity
         mTitle.addTextChangedListener(new TextWatcher() {
@@ -78,67 +76,24 @@ public class PageFragment extends Fragment {
                 mTitle.setText(mPage.getTitle());
             }
             if (!mPage.getContent().equals("")) {
-                mContent.setText(mPage.getContent());
+                //mContent.setText(mPage.getContent());
+                editor.setHtml(mPage.getContent());
             }
         }
-    }
 
-    public void changeTextColor(){
-        int selectionStart = mContent.getSelectionStart();
-        int selectionEnd = mContent.getSelectionEnd();
-
-        String startingText = mContent.getText().toString()
-                .substring(0, selectionStart);
-        String selectedText = mContent.getText().toString()
-                .substring(selectionStart, selectionEnd);
-        String endingText = mContent.getText().toString()
-                .substring(selectionEnd);
-
-        //mContent.setText(Html.fromHtml(startingText + "<font color=#222222" + selectedText + "/>" + endingText));
-
-    }
-    public void makeTextBold(Markwon markwon){
-        int selectionStart = mContent.getSelectionStart();
-        int selectionEnd = mContent.getSelectionEnd();
-
-        String startingText = mContent.getText().toString()
-                .substring(0, selectionStart);
-        String selectedText = mContent.getText().toString()
-                .substring(selectionStart, selectionEnd);
-        String endingText = mContent.getText().toString()
-                .substring(selectionEnd);
-        String toParse = startingText+"**"+selectedText+"**"+endingText;
-        Node node = markwon.parse(toParse);
-        Spanned markdown = markwon.render(node);
-        markwon.setParsedMarkdown(mContent, markdown);
-        //mContent.setText(Html.fromHtml(startingText + "<b>" + selectedText + "</b>" + endingText));
-    }
-    public void makeTextItalic(){
-        String wholeText = mContent.getText().toString();
-        styleItalic = new StyleSpan(Typeface.ITALIC);
-        int start = mContent.getSelectionStart();
-        int end =mContent.getSelectionEnd();
-
-        SpannableStringBuilder sb = new SpannableStringBuilder(wholeText);
-
-        sb.setSpan(styleItalic, start, end, 0);
-        mContent.setText(sb);
     }
 
     public String getTitle(){
         return mTitle.getText().toString();
     }
     public String getContent(){
-        return mContent.getText().toString();
+        return editor.getHtml();
     }
 
     public void setmTitle(String mTitle) {
         this.mTitle.setText(mTitle);
     }
 
-    public void setmContent(String mContent) {
-        this.mContent .setText(mContent);
-    }
 
     public void setmPage(Page mPage) {
         this.mPage = mPage;

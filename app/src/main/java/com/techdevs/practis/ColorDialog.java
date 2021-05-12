@@ -37,7 +37,6 @@ public class ColorDialog extends Dialog implements android.view.View.OnClickList
         mRed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
             }
         });
 

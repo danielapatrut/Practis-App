@@ -16,6 +16,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -180,6 +181,7 @@ public class NewPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //insert checkbox
+                mPageFragment.editor.insertTodo();
             }
         });
 
@@ -194,14 +196,17 @@ public class NewPageActivity extends AppCompatActivity {
         mMakeTextBold.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPageFragment.makeTextBold(markwon);
+                //mPageFragment.makeTextBold(markwon);
+                mPageFragment.editor.setBold();
             }
         });
+
 
         mMakeTextItalic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              mPageFragment.makeTextItalic();
+                //mPageFragment.makeTextItalic();
+                mPageFragment.editor.setItalic();
             }
         });
 
@@ -209,6 +214,7 @@ public class NewPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //underline text
+                mPageFragment.editor.setUnderline();
             }
         });
 
@@ -326,42 +332,43 @@ public class NewPageActivity extends AppCompatActivity {
         redColor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPageFragment.changeTextColor();
+                //mPageFragment.changeTextColor();
+                mPageFragment.editor.setTextColor(0xffff4444);
             }
         });
         Button blueColor = (Button)dialog.findViewById(R.id.blue);
         blueColor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("blue button");
+                mPageFragment.editor.setTextColor(0xff33b5e5);
             }
         });
         Button greenColor = (Button)dialog.findViewById(R.id.green);
         greenColor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("green button");
+                mPageFragment.editor.setTextColor(0xff99cc00);
             }
         });
         Button orangeColor = (Button)dialog.findViewById(R.id.orange);
         orangeColor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("orange button");
+                mPageFragment.editor.setTextColor(0xffffbb33);
             }
         });
         Button purpleColor = (Button)dialog.findViewById(R.id.purple);
         purpleColor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("purple button");
+                mPageFragment.editor.setTextColor(0xFFBB86FC);
             }
         });
         Button blackColor = (Button)dialog.findViewById(R.id.black);
         blackColor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("black button");
+                mPageFragment.editor.setTextColor(Color.BLACK);
             }
         });
 
