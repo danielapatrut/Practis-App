@@ -8,6 +8,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -182,21 +184,21 @@ public class MyProfileActivity extends AppCompatActivity {
             case R.id.nav_home:
                 fragmentClass = MainActivity.class;
                 break;
-            /*case R.id.nav_calendar:
+            case R.id.nav_calendar:
                 fragmentClass = CalendarActivity.class;
                 break;
             case R.id.nav_urgent_task:
                 fragmentClass = UrgentTasksActivity.class;
-                break;*/
+                break;
             case R.id.nav_gallery:
                 fragmentClass = GalleryActivity.class;
                 break;
             case R.id.nav_profile:
                 fragmentClass = MyProfileActivity.class;
                 break;
-            /*case R.id.nav_settings:
+            case R.id.nav_settings:
                 fragmentClass = SettingsActivity.class;
-                break;*/
+                break;
             case R.id.nav_logout:
                 fragmentClass=Login.class;
                 logout();

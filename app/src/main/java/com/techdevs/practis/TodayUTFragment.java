@@ -18,44 +18,43 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
-public class CalendarTaskFragment extends Fragment {
+public class TodayUTFragment extends Fragment {
 
     private RecyclerView mTaskListView;
     private List<Task> tasks;
-    private CalendarTaskRecyclerAdapter mRecyclerAdapter;
+    private TodayUTRecyclerAdapter mRecyclerAdapter;
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore firebaseFirestore;
 
-    public CalendarTaskFragment() {
+    public TodayUTFragment() {
         // Required empty public constructor
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_calendar_task, container, false);
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_today_u_t, container, false);
         firebaseAuth=FirebaseAuth.getInstance();
         firebaseFirestore=FirebaseFirestore.getInstance();
 
         tasks = new ArrayList<>();
-        mTaskListView = getActivity().findViewById(R.id.tasksListView);
-        mRecyclerAdapter = new CalendarTaskRecyclerAdapter(tasks);
+        mTaskListView = getActivity().findViewById(R.id.todayUrgentTasks);
+        mRecyclerAdapter = new TodayUTRecyclerAdapter(tasks);
         mTaskListView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mTaskListView.setAdapter(mRecyclerAdapter);
 
-        //retrieve from db
         String pattern = "d/M/yyyy";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
         String date = simpleDateFormat.format(new Date());
         firebaseFirestore.collection("tasks")
                 .whereEqualTo("userID", firebaseAuth.getUid())
                 .whereEqualTo("dueDate",date)
+                .whereEqualTo("urgent",true)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -74,7 +73,6 @@ public class CalendarTaskFragment extends Fragment {
                         }
                     }
                 });
-
         return view;
     }
 }

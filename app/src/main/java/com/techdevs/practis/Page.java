@@ -8,6 +8,7 @@ public class Page {
     private boolean hasCoverImage = false;
     private String title;
     private String content;
+    private String uri = "";
     //private File content; //store content as markdown
     private boolean newPage=true;
     private int pageID;
@@ -29,6 +30,14 @@ public class Page {
         this.title = title;
         this.content = content;
     }*/
+
+    public String getUri() {
+        return uri;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
+    }
 
     public int getPageID() {
         return pageID;

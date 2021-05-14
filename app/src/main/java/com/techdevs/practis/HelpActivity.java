@@ -3,12 +3,18 @@ package com.techdevs.practis;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -103,6 +109,17 @@ public class HelpActivity extends AppCompatActivity {
             }
         });
         setupDrawerContent(nvDrawer);
+        FirebaseFirestore.getInstance().collection("profileimages").whereEqualTo("userID",FirebaseAuth.getInstance().getCurrentUser().getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull com.google.android.gms.tasks.Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Image profileImg = document.toObject(Image.class);
+                        Glide.with(getApplicationContext()).load(profileImg.getUri()).into(mProfileImage);
+                    }
+                }
+            }
+        });
 
     }
 
@@ -124,21 +141,21 @@ public class HelpActivity extends AppCompatActivity {
             case R.id.nav_home:
                 fragmentClass = MainActivity.class;
                 break;
-            /*case R.id.nav_calendar:
+            case R.id.nav_calendar:
                 fragmentClass = CalendarActivity.class;
                 break;
             case R.id.nav_urgent_task:
                 fragmentClass = UrgentTasksActivity.class;
-                break;*/
+                break;
             case R.id.nav_gallery:
                 fragmentClass = GalleryActivity.class;
                 break;
-            /*case R.id.nav_profile:
-                fragmentClass = ProfileActivity.class;
+            case R.id.nav_profile:
+                fragmentClass = MyProfileActivity.class;
                 break;
             case R.id.nav_settings:
                 fragmentClass = SettingsActivity.class;
-                break;*/
+                break;
             case R.id.nav_logout:
                 fragmentClass=Login.class;
                 logout();

@@ -17,22 +17,22 @@
     android:layout_height="match_parent">
 
 
-
-    <EditText
-        android:id="@+id/pageTitleText"
-        android:layout_width="312dp"
-        android:layout_height="63dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginTop="16dp"
-        android:background="@android:color/transparent"
-        android:ems="10"
-        android:fontFamily="@font/montserrat_light"
-        android:hint="@string/page_title"
-        android:inputType="textPersonName"
-        android:textColor="@color/black"
-        android:textColorHint="#707070"
-        android:textSize="30dp" />
+        <EditText
+            android:id="@+id/pageTitleText"
+            android:layout_width="312dp"
+            android:layout_height="63dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginTop="16dp"
+            android:background="@android:color/transparent"
+            android:ems="10"
+            android:fontFamily="@font/montserrat_light"
+            android:hint="@string/page_title"
+            android:inputType="textPersonName"
+            android:maxLength="16"
+            android:textColor="@color/black"
+            android:textColorHint="#707070"
+            android:textSize="30dp" />
 
     <View
         android:id="@+id/divider"
@@ -44,36 +44,18 @@
         android:layout_marginBottom="4dp"
         android:background="#707070" />
 
-    <RelativeLayout
-        android:id="@+id/contentContainer"
-        android:layout_width="316dp"
-        android:layout_height="match_parent">
 
-        <EditText
-            android:id="@+id/pageContentText"
-            android:layout_width="311dp"
-            android:layout_height="574dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginStart="6dp"
-            android:layout_marginLeft="6dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="-1dp"
-            android:layout_marginRight="-1dp"
-            android:background="@android:color/transparent"
-            android:ems="10"
-            android:fontFamily="@font/montserrat_light"
-            android:gravity="start|top"
-            android:hint="@string/page_content"
-            android:inputType="textMultiLine"
-            android:maxLength="99999999"
-            android:textColor="@color/black"
-            android:textColorHint="#707070"
-            android:textSize="22dp" />
-    </RelativeLayout>
+    <jp.wasabeef.richeditor.RichEditor
+        android:id="@+id/editor"
+        android:layout_width="311dp"
+        android:layout_height="614dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="-1dp"
+        android:layout_marginRight="-1dp"
+        />
+
 
 </LinearLayout>
 </ScrollView>

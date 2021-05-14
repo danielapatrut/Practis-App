@@ -12,16 +12,20 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -37,11 +41,17 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.util.UUID;
 
 import io.noties.markwon.Markwon;
 
 public class NewPageActivity extends AppCompatActivity {
 
+    private final int PICK_IMAGE_REQUEST = 71;
     Button mMenuButton,mSaveButton;
     ImageButton mMakeCheckBox,mMakeTextBold,mMakeTextItalic,mUnderlineText,mMakeTextDifferentColor,mAddImageToolbar;
     FloatingActionButton mAddImage;
@@ -54,6 +64,9 @@ public class NewPageActivity extends AppCompatActivity {
     private boolean fromList=false;
     private DrawerLayout mDrawer;
     private NavigationView nvDrawer;
+    private Uri filePath;
+    ImageView coverImage;
+    static boolean inPage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +86,7 @@ public class NewPageActivity extends AppCompatActivity {
         mButtonContainer=findViewById(R.id.buttonContainer);
         mDrawer = findViewById(R.id.drawer_layout);
         nvDrawer = findViewById(R.id.nvView);
+        coverImage=findViewById(R.id.coverImage);
 
         firebaseAuth=FirebaseAuth.getInstance();
         firebaseFirestore = FirebaseFirestore.getInstance();
@@ -80,6 +94,7 @@ public class NewPageActivity extends AppCompatActivity {
         final Markwon markwon = Markwon.create(this);
 
         mPage=new Page();
+        inPage = false;
 
         if(getIntent().hasExtra("PAGE_TITLE")) {
             mPage.setNewPage(getIntent().getBooleanExtra("IS_NEW",true));
@@ -88,6 +103,13 @@ public class NewPageActivity extends AppCompatActivity {
             mPage.setPageID(getIntent().getIntExtra("PAGE_ID",0));
             mPage.setHasCoverImage(getIntent().getBooleanExtra("HAS_PHOTO", false));
             fromList=true;
+        }
+        if(getIntent().hasExtra("PAGE_URI")){
+            mPage.setUri(getIntent().getStringExtra("PAGE_URI"));
+            Glide.with(getApplicationContext()).load(Uri.parse(mPage.getUri())).into(coverImage);
+        }else{
+            coverImage.requestLayout();
+            coverImage.getLayoutParams().height=0;
         }
 
         mPage.setUserID(firebaseAuth.getUid());
@@ -143,7 +165,9 @@ public class NewPageActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //open image dialog
                 //change image for page
+                chooseImage();
                 mPage.setHasCoverImage(true); //until then, it's false
+                if(!mPage.isNewPage()) updateInFirestore(mPage.getPageID());
             }
         });
 
@@ -152,6 +176,8 @@ public class NewPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //open image dialog
+                inPage = true;
+                chooseImage();
             }
         });
 
@@ -159,6 +185,7 @@ public class NewPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //insert checkbox
+                mPageFragment.editor.insertTodo();
             }
         });
 
@@ -173,14 +200,17 @@ public class NewPageActivity extends AppCompatActivity {
         mMakeTextBold.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPageFragment.makeTextBold(markwon);
+                //mPageFragment.makeTextBold(markwon);
+                mPageFragment.editor.setBold();
             }
         });
+
 
         mMakeTextItalic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              mPageFragment.makeTextItalic();
+                //mPageFragment.makeTextItalic();
+                mPageFragment.editor.setItalic();
             }
         });
 
@@ -188,6 +218,7 @@ public class NewPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //underline text
+                mPageFragment.editor.setUnderline();
             }
         });
 
@@ -196,6 +227,30 @@ public class NewPageActivity extends AppCompatActivity {
         replaceFragment(mPageFragment);
         setupDrawerContent(nvDrawer);
 
+    }
+    private void updateInFirestore(int id){
+        FirebaseFirestore.getInstance().collection("pages").document(String.valueOf(id)).update("hasCoverImage",true);
+    }
+    private void chooseImage() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
+                && data != null && data.getData() != null )
+        {
+            filePath = data.getData();
+            if(!inPage)
+                uploadImageToFirebase(filePath);
+            else
+                uploadImageFirebase(filePath);
+            //Glide.with(getApplicationContext()).load(filePath).into(coverImage);
+        }
     }
     private void setupDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(
@@ -218,15 +273,15 @@ public class NewPageActivity extends AppCompatActivity {
             case R.id.nav_calendar:
                 fragmentClass = CalendarActivity.class;
                 break;
-            /*case R.id.nav_urgent_task:
+            case R.id.nav_urgent_task:
                 fragmentClass = UrgentTasksActivity.class;
-                break;*/
+                break;
             case R.id.nav_gallery:
                 fragmentClass = GalleryActivity.class;
                 break;
-            /*case R.id.nav_profile:
-                fragmentClass = ProfileActivity.class;
-                break;*/
+            case R.id.nav_profile:
+                fragmentClass = MyProfileActivity.class;
+                break;
             case R.id.nav_settings:
                 fragmentClass = SettingsActivity.class;
                 break;
@@ -284,42 +339,43 @@ public class NewPageActivity extends AppCompatActivity {
         redColor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPageFragment.changeTextColor();
+                //mPageFragment.changeTextColor();
+                mPageFragment.editor.setTextColor(0xffff4444);
             }
         });
         Button blueColor = (Button)dialog.findViewById(R.id.blue);
         blueColor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("blue button");
+                mPageFragment.editor.setTextColor(0xff33b5e5);
             }
         });
         Button greenColor = (Button)dialog.findViewById(R.id.green);
         greenColor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("green button");
+                mPageFragment.editor.setTextColor(0xff99cc00);
             }
         });
         Button orangeColor = (Button)dialog.findViewById(R.id.orange);
         orangeColor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("orange button");
+                mPageFragment.editor.setTextColor(0xffffbb33);
             }
         });
         Button purpleColor = (Button)dialog.findViewById(R.id.purple);
         purpleColor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("purple button");
+                mPageFragment.editor.setTextColor(0xFFBB86FC);
             }
         });
         Button blackColor = (Button)dialog.findViewById(R.id.black);
         blackColor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("black button");
+                mPageFragment.editor.setTextColor(Color.BLACK);
             }
         });
 
@@ -349,5 +405,67 @@ public class NewPageActivity extends AppCompatActivity {
     public boolean isFromList() {
         return fromList;
     }
+    private void uploadImageToFirebase(Uri imguri) {
+        if (imguri != null) {
+            CoverImage mImage = new CoverImage();
+            if(mPage.getPageID()!=0){
+                mImage.setPageID(String.valueOf(mPage.getPageID()));
+            }
+            String fileName = UUID.randomUUID().toString() + ".png";
+            StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+            StorageReference ref = storageRef.child("coverimages/" + UUID.randomUUID().toString());
+            ref.putFile(imguri)
+                    .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        mImage.setUri(uri.toString());
+                                        mImage.setUserID(firebaseAuth.getCurrentUser().getUid());
+                                        firebaseFirestore.collection("pages")
+                                                .whereEqualTo("pageID",mPage.getPageID())
+                                                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                if (task.isSuccessful()) {
+                                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                                        mPage.setUri(String.valueOf(mImage.getUri()));
+                                                    }
+                                                }
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        }
+                    });
 
+
+        }
+    }
+    private void uploadImageFirebase(Uri imguri) {
+        if (imguri != null) {
+            String fileName = UUID.randomUUID().toString() + ".png";
+            StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+            StorageReference ref = storageRef.child("pageimages/" + UUID.randomUUID().toString());
+            ref.putFile(imguri)
+                    .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        mPageFragment.editor.insertImage(uri.toString(),"Image could not be loaded",250);
+                                    }
+                                });
+                            }
+                        }
+                    });
+
+
+        }
+    }
 }

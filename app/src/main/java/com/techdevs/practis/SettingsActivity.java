@@ -1,9 +1,17 @@
 package com.techdevs.practis;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.app.AlarmManager;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -20,8 +28,15 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.Calendar;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -29,9 +44,11 @@ public class SettingsActivity extends AppCompatActivity {
     ImageView mProfileImage;
     private DrawerLayout mDrawer;
     private NavigationView nvDrawer;
-    Button  timeButton, helpButton, logoutButton;
+    Button helpButton, logoutButton;
     TextView notifTime;
     RelativeLayout notificationsButton;
+    public static boolean sendNotifs = false;
+    private static final String NOTIFICATION_CHANNEL_ID = "my_channel";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +59,11 @@ public class SettingsActivity extends AppCompatActivity {
         mDrawer = findViewById(R.id.drawer_layout);
         nvDrawer = findViewById(R.id.nvView);
         notificationsButton = findViewById(R.id.notifButton);
-        timeButton = findViewById(R.id.timeSpentBtn);
         helpButton = findViewById(R.id.helpBtn);
         logoutButton = findViewById(R.id.logoutBtn);
         notifTime=(TextView)findViewById(R.id.notifTime);
         notifTime.bringToFront();
+
         //notifications
         notificationsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,7 +77,7 @@ public class SettingsActivity extends AppCompatActivity {
         helpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //startActivity(new Intent(getApplicationContext(),HelpActivity.class));
+                startActivity(new Intent(getApplicationContext(),HelpActivity.class));
             }
         });
 
@@ -78,9 +95,33 @@ public class SettingsActivity extends AppCompatActivity {
                 mDrawer.openDrawer(GravityCompat.START);
             }
         });
+        FirebaseFirestore.getInstance().collection("profileimages").whereEqualTo("userID",FirebaseAuth.getInstance().getCurrentUser().getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull com.google.android.gms.tasks.Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Image profileImg = document.toObject(Image.class);
+                        Glide.with(getApplicationContext()).load(profileImg.getUri()).into(mProfileImage);
+                    }
+                }
+            }
+        });
+       if(sendNotifs) {
+            Intent notifyIntent = new Intent(this, MyReceiver.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast
+                    (this, 0, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR_OF_DAY, 8);
+            calendar.set(Calendar.MINUTE, 00);
+            calendar.set(Calendar.SECOND, 00);
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),1000 * 60 * 60 * 24,  pendingIntent);
+            notifTime.setText("Send notifications");
+        }else
+            notifTime.setText("Do not send");
+
         setupDrawerContent(nvDrawer);
     }
-
 
     public void openNotifDialog(){
         NotificationsDialog notificationsDialog = new NotificationsDialog(this);
@@ -93,14 +134,25 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 notificationsDialog.dismiss();
+                Intent intent = getIntent();
+                finish();
+                startActivity(intent);
             }
         });
         dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Object item = parent.getItemAtPosition(position);
-                if(position!=0)
+                if(position==0)
+                {
+                    sendNotifs = true;
                     notifTime.setText(item.toString());
+                }
+                else {
+                    sendNotifs=false;
+                    notifTime.setText("Do not send");
+                }
+
             }
 
             @Override
@@ -130,15 +182,15 @@ public class SettingsActivity extends AppCompatActivity {
             case R.id.nav_calendar:
                 fragmentClass = CalendarActivity.class;
                 break;
-            /*case R.id.nav_urgent_task:
+            case R.id.nav_urgent_task:
                 fragmentClass = UrgentTasksActivity.class;
-                break;*/
+                break;
             case R.id.nav_gallery:
                 fragmentClass = GalleryActivity.class;
                 break;
-            /*case R.id.nav_profile:
-                fragmentClass = ProfileActivity.class;
-                break;*/
+                case R.id.nav_profile:
+                fragmentClass = MyProfileActivity.class;
+                break;
             case R.id.nav_settings:
                 fragmentClass = SettingsActivity.class;
                 break;

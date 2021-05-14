@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -63,6 +64,17 @@ public class CalendarActivity extends AppCompatActivity {
                 mDrawer.openDrawer(GravityCompat.START);
             }
         });
+        FirebaseFirestore.getInstance().collection("profileimages").whereEqualTo("userID",FirebaseAuth.getInstance().getCurrentUser().getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull com.google.android.gms.tasks.Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Image profileImg = document.toObject(Image.class);
+                        Glide.with(getApplicationContext()).load(profileImg.getUri()).into(mProfileImage);
+                    }
+                }
+            }
+        });
         setupDrawerContent(nvDrawer);
     }
 
@@ -87,15 +99,15 @@ public class CalendarActivity extends AppCompatActivity {
             case R.id.nav_calendar:
                 fragmentClass = CalendarActivity.class;
                 break;
-            /*case R.id.nav_urgent_task:
+            case R.id.nav_urgent_task:
                 fragmentClass = UrgentTasksActivity.class;
-                break;*/
+                break;
             case R.id.nav_gallery:
                 fragmentClass = GalleryActivity.class;
                 break;
-            /*case R.id.nav_profile:
-                fragmentClass = ProfileActivity.class;
-                break;*/
+            case R.id.nav_profile:
+                fragmentClass = MyProfileActivity.class;
+                break;
             case R.id.nav_settings:
                 fragmentClass = SettingsActivity.class;
                 break;
@@ -180,7 +192,6 @@ public class CalendarActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Object item = parent.getItemAtPosition(position);
-                System.out.println(item);
             }
 
             @Override

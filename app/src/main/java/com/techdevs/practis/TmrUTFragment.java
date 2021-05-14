@@ -18,44 +18,55 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 
-public class CalendarTaskFragment extends Fragment {
+public class TmrUTFragment extends Fragment {
 
     private RecyclerView mTaskListView;
     private List<Task> tasks;
-    private CalendarTaskRecyclerAdapter mRecyclerAdapter;
+    private TmrUTRecyclerAdapter mRecyclerAdapter;
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore firebaseFirestore;
 
-    public CalendarTaskFragment() {
+    public TmrUTFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_calendar_task, container, false);
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_tmr_u_t, container, false);
         firebaseAuth=FirebaseAuth.getInstance();
         firebaseFirestore=FirebaseFirestore.getInstance();
 
         tasks = new ArrayList<>();
-        mTaskListView = getActivity().findViewById(R.id.tasksListView);
-        mRecyclerAdapter = new CalendarTaskRecyclerAdapter(tasks);
+        mTaskListView = getActivity().findViewById(R.id.tomorrowUrgentTasks);
+        mRecyclerAdapter = new TmrUTRecyclerAdapter(tasks);
         mTaskListView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mTaskListView.setAdapter(mRecyclerAdapter);
 
-        //retrieve from db
         String pattern = "d/M/yyyy";
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DAY_OF_YEAR, 1);
+        Date tomorrow = calendar.getTime();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
-        String date = simpleDateFormat.format(new Date());
+        String date = simpleDateFormat.format(tomorrow);
         firebaseFirestore.collection("tasks")
                 .whereEqualTo("userID", firebaseAuth.getUid())
                 .whereEqualTo("dueDate",date)
+                .whereEqualTo("urgent",true)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -74,7 +85,6 @@ public class CalendarTaskFragment extends Fragment {
                         }
                     }
                 });
-
         return view;
     }
 }

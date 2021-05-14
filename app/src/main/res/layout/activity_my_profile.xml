@@ -91,6 +91,7 @@
             android:ems="10"
             android:gravity="center"
             android:inputType="textPersonName"
+            android:textColor="@color/black"
             android:textSize="26sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -105,6 +106,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/montserrat_light"
             android:text="Your profile data"
+            android:textColor="#707070"
             android:textSize="30sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/myProfileImage"
@@ -145,6 +147,7 @@
             android:fontFamily="@font/montserrat_light"
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
+            android:textColor="#707070"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -162,6 +165,7 @@
             android:fontFamily="@font/montserrat_light"
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
+            android:textColor="#707070"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -180,5 +184,6 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="#F6E2FC"
+        app:headerLayout="@layout/menu_header"
         app:menu="@menu/drawer_menu" />
 </androidx.drawerlayout.widget.DrawerLayout>
