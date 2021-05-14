@@ -66,6 +66,7 @@ public class NewPageActivity extends AppCompatActivity {
     private NavigationView nvDrawer;
     private Uri filePath;
     ImageView coverImage;
+    static boolean inPage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +94,7 @@ public class NewPageActivity extends AppCompatActivity {
         final Markwon markwon = Markwon.create(this);
 
         mPage=new Page();
+        inPage = false;
 
         if(getIntent().hasExtra("PAGE_TITLE")) {
             mPage.setNewPage(getIntent().getBooleanExtra("IS_NEW",true));
@@ -174,6 +176,8 @@ public class NewPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //open image dialog
+                inPage = true;
+                chooseImage();
             }
         });
 
@@ -241,7 +245,10 @@ public class NewPageActivity extends AppCompatActivity {
                 && data != null && data.getData() != null )
         {
             filePath = data.getData();
-            uploadImageToFirebase(filePath);
+            if(!inPage)
+                uploadImageToFirebase(filePath);
+            else
+                uploadImageFirebase(filePath);
             //Glide.with(getApplicationContext()).load(filePath).into(coverImage);
         }
     }
@@ -429,6 +436,29 @@ public class NewPageActivity extends AppCompatActivity {
                                                 }
                                             }
                                         });
+                                    }
+                                });
+                            }
+                        }
+                    });
+
+
+        }
+    }
+    private void uploadImageFirebase(Uri imguri) {
+        if (imguri != null) {
+            String fileName = UUID.randomUUID().toString() + ".png";
+            StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+            StorageReference ref = storageRef.child("pageimages/" + UUID.randomUUID().toString());
+            ref.putFile(imguri)
+                    .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        mPageFragment.editor.insertImage(uri.toString(),"Image could not be loaded",250);
                                     }
                                 });
                             }

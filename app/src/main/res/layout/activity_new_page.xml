@@ -57,23 +57,28 @@
                 android:scaleType="centerCrop" />
         </androidx.cardview.widget.CardView>
 
-        <FrameLayout
-            android:id="@+id/newPageContainer"
+        <ScrollView
             android:layout_width="330dp"
-            android:layout_height="580dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginLeft="4dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginRight="4dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/buttonContainer"
-            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintHorizontal_bias="0.1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/coverHolder1"
-            app:layout_constraintVertical_bias="0.0">
+            app:layout_constraintVertical_bias="0.013">
 
-        </FrameLayout>
+            <FrameLayout
+                android:id="@+id/newPageContainer"
+                android:layout_width="match_parent"
+                android:layout_height="580dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginEnd="4dp"
+                android:layout_marginRight="4dp">
+
+            </FrameLayout>
+        </ScrollView>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/linearLayout"

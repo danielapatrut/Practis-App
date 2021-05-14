@@ -54,7 +54,7 @@ public class PageFragment extends Fragment {
         //mContent=view.findViewById(R.id.pageContentText);
         editor = view.findViewById(R.id.editor);
         editor.setPlaceholder("Start typing...");
-        editor.setEditorFontSize(26);
+        editor.setEditorFontSize(24);
         final Markwon markwon = Markwon.create(getActivity());
 
         //dynamically change page title from activity
