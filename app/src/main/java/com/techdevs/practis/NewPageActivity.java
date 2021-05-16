@@ -52,7 +52,7 @@ import io.noties.markwon.Markwon;
 public class NewPageActivity extends AppCompatActivity {
 
     private final int PICK_IMAGE_REQUEST = 71;
-    Button mMenuButton,mSaveButton;
+    Button mMenuButton,mSaveButton,closemenu;
     ImageButton mMakeCheckBox,mMakeTextBold,mMakeTextItalic,mUnderlineText,mMakeTextDifferentColor,mAddImageToolbar;
     FloatingActionButton mAddImage;
     TextView mPageTitle;
@@ -153,8 +153,12 @@ public class NewPageActivity extends AppCompatActivity {
                     });
                 }else {
                     //if it's old update
-                    firebaseFirestore.collection("pages").document(String.valueOf(mPage.getPageID())).set(mPage);
-                    startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                    if(!mPage.getTitle().equals("") && !mPage.getContent().equals("")) {
+                        firebaseFirestore.collection("pages").document(String.valueOf(mPage.getPageID())).set(mPage);
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                    }else{
+                        openSavingDialog();
+                    }
                 }
             }
         });
@@ -226,7 +230,14 @@ public class NewPageActivity extends AppCompatActivity {
         mPageFragment.setmPage(mPage);
         replaceFragment(mPageFragment);
         setupDrawerContent(nvDrawer);
-
+        View header = nvDrawer.getHeaderView(0);
+        closemenu = (Button) header.findViewById(R.id.dismissbutton);
+        closemenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDrawer.closeDrawers();
+            }
+        });
     }
     private void updateInFirestore(int id){
         FirebaseFirestore.getInstance().collection("pages").document(String.valueOf(id)).update("hasCoverImage",true);
@@ -443,6 +454,10 @@ public class NewPageActivity extends AppCompatActivity {
                     });
 
 
+        }
+        else{
+            mPage.setHasCoverImage(false);
+            FirebaseFirestore.getInstance().collection("pages").document(String.valueOf(mPage.getPageID())).update("hasCoverImage",false);
         }
     }
     private void uploadImageFirebase(Uri imguri) {

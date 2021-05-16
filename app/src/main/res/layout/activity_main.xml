@@ -2,11 +2,12 @@
 <androidx.drawerlayout.widget.DrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F6E2FC"
@@ -42,7 +43,7 @@
             android:layout_marginEnd="24dp"
             android:layout_marginRight="24dp"
             app:cardBackgroundColor="@android:color/transparent"
-            app:cardCornerRadius="24dp"
+
             app:cardElevation="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -52,6 +53,7 @@
                 android:id="@+id/profileImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 app:srcCompat="@drawable/user" />
         </androidx.cardview.widget.CardView>
 
@@ -59,8 +61,8 @@
             android:id="@+id/welcomeLabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="56dp"
-            android:layout_marginRight="56dp"
+            android:layout_marginEnd="36dp"
+            android:layout_marginRight="36dp"
             android:layout_marginBottom="4dp"
             android:fontFamily="@font/montserrat_light"
             android:text="Welcome, "

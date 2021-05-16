@@ -17,8 +17,7 @@
         <Button
             android:id="@+id/saveButton"
             android:layout_width="100dp"
-            android:layout_height="60dp"
-            android:layout_marginTop="16dp"
+            android:layout_height="54dp"
             android:layout_marginBottom="16dp"
             android:text="SAVE"
             android:textColor="#FFFFFF"
@@ -29,57 +28,65 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.948"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view"
-            app:layout_constraintVertical_bias="0.108" />
+            app:layout_constraintStart_toStartOf="parent" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/coverHolder1"
-            android:layout_width="match_parent"
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
-            android:layout_marginLeft="2dp"
-            android:layout_marginTop="2dp"
-            android:layout_marginEnd="2dp"
-            android:layout_marginRight="2dp"
+            android:scrollbars="none"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout">
-
-            <ImageView
-                android:id="@+id/coverImage"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:layout_marginStart="1dp"
-                android:layout_marginLeft="1dp"
-                android:layout_marginTop="1dp"
-                android:layout_marginEnd="1dp"
-                android:layout_marginRight="1dp"
-                android:scaleType="centerCrop" />
-        </androidx.cardview.widget.CardView>
-
-        <ScrollView
-            android:layout_width="330dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/buttonContainer"
-            app:layout_constraintHorizontal_bias="0.1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/coverHolder1"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
             app:layout_constraintVertical_bias="0.013">
 
-            <FrameLayout
-                android:id="@+id/newPageContainer"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="580dp"
-                android:layout_marginStart="4dp"
-                android:layout_marginLeft="4dp"
-                android:layout_marginEnd="4dp"
-                android:layout_marginRight="4dp">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-            </FrameLayout>
-        </ScrollView>
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/coverHolder1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginEnd="2dp"
+                    android:layout_marginRight="2dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+                    <ImageView
+                        android:id="@+id/coverImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:layout_marginStart="1dp"
+                        android:layout_marginLeft="1dp"
+                        android:layout_marginTop="1dp"
+                        android:layout_marginEnd="1dp"
+                        android:layout_marginRight="1dp"
+                        android:scaleType="centerCrop" />
+
+
+                </androidx.cardview.widget.CardView>
+
+
+                <FrameLayout
+                    android:id="@+id/newPageContainer"
+                    android:layout_width="330dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginRight="4dp"
+                    >
+
+                </FrameLayout>
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/linearLayout"
@@ -147,9 +154,9 @@
             android:id="@+id/buttonContainer"
             android:layout_width="65dp"
             android:layout_height="330dp"
-            android:layout_marginTop="120dp"
+            android:layout_marginTop="100dp"
             android:background="@drawable/sidebar_toolkit"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/saveButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout"
             app:layout_constraintVertical_bias="0.227">

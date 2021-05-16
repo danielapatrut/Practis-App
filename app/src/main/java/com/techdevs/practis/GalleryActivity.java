@@ -40,7 +40,7 @@ import java.util.UUID;
 public class GalleryActivity extends AppCompatActivity {
 
     private final int PICK_IMAGE_REQUEST = 71;
-    Button mMenuButton;
+    Button mMenuButton,closemenu;
     ImageView mProfileImage;
     private GalleryFragment mGalleryFragment;
     private FrameLayout mFrameLayout;
@@ -91,6 +91,14 @@ public class GalleryActivity extends AppCompatActivity {
             }
         });
         setupDrawerContent(nvDrawer);
+        View header = nvDrawer.getHeaderView(0);
+        closemenu = (Button) header.findViewById(R.id.dismissbutton);
+        closemenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDrawer.closeDrawers();
+            }
+        });
     }
     private void setupDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(

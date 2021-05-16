@@ -43,7 +43,7 @@
                 android:layout_marginEnd="24dp"
                 android:layout_marginRight="24dp"
                 app:cardBackgroundColor="@android:color/transparent"
-                app:cardCornerRadius="24dp"
+
                 app:cardElevation="0dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -57,18 +57,6 @@
                     app:srcCompat="@drawable/user" />
             </androidx.cardview.widget.CardView>
 
-            <TextView
-                android:id="@+id/welcomeLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="56dp"
-                android:layout_marginRight="56dp"
-                android:layout_marginBottom="4dp"
-                android:fontFamily="@font/montserrat_light"
-                android:text="Welcome, "
-                android:textColor="#36283C"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/cardView" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

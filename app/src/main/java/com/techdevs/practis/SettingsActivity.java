@@ -40,7 +40,7 @@ import java.util.Calendar;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    Button mMenuButton;
+    Button mMenuButton,closemenu;
     ImageView mProfileImage;
     private DrawerLayout mDrawer;
     private NavigationView nvDrawer;
@@ -121,6 +121,14 @@ public class SettingsActivity extends AppCompatActivity {
             notifTime.setText("Do not send");
 
         setupDrawerContent(nvDrawer);
+        View header = nvDrawer.getHeaderView(0);
+        closemenu = (Button) header.findViewById(R.id.dismissbutton);
+        closemenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDrawer.closeDrawers();
+            }
+        });
     }
 
     public void openNotifDialog(){

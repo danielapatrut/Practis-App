@@ -48,9 +48,9 @@ public class MyProfileActivity extends AppCompatActivity {
     private final int PICK_IMAGE_REQUEST = 71;
     private Uri filePath;
     TextView   mEditName;
-    TextView mWelcomeLabel,mEditEmail,mEditPassword;
+    TextView mEditEmail,mEditPassword;
     ImageView mEditNameButton, mAddProfileImage;
-    Button mMenuButton;
+    Button mMenuButton,closemenu;
     FirebaseAuth fAuth;
     private FirebaseAuth firebaseAuth;
     private FirebaseFirestore firebaseFirestore;
@@ -69,7 +69,6 @@ public class MyProfileActivity extends AppCompatActivity {
         mEditEmail = findViewById(R.id.editTextEmail);
         mEditName = findViewById(R.id.editTextName);
         mEditPassword = findViewById(R.id.editTextPassword);
-        mWelcomeLabel = findViewById(R.id.welcomeLabel);
         mEditNameButton = findViewById(R.id.editNameButton);
         mMenuButton = findViewById(R.id.menuButton);
         mAddProfileImage = findViewById(R.id.addProfileImageButton);
@@ -127,6 +126,14 @@ public class MyProfileActivity extends AppCompatActivity {
             }
         });
         setupDrawerContent(nvDrawer);
+        View header = nvDrawer.getHeaderView(0);
+        closemenu = (Button) header.findViewById(R.id.dismissbutton);
+        closemenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDrawer.closeDrawers();
+            }
+        });
     }
 
     public void buttonClickedEditName(View view) {

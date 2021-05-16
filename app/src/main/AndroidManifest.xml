@@ -17,7 +17,7 @@
         <activity android:name=".UrgentTasksActivity"></activity>
         <activity android:name=".MyProfileActivity" />
         <activity android:name=".HelpActivity" />
-        <activity android:name=".GalleryActivity" /> <!-- <activity android:name=".HelpActivity" /> -->
+        <activity android:name=".GalleryActivity" />
         <activity android:name=".CalendarActivity" />
         <activity android:name=".SettingsActivity" />
         <activity android:name=".NewPageActivity" />

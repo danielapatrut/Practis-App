@@ -35,7 +35,7 @@ import android.widget.Toolbar;
 
 public class HelpActivity extends AppCompatActivity {
 
-    Button mMenuButton;
+    Button mMenuButton,closemenu;
     ImageView mProfileImage;
     private DrawerLayout mDrawer;
     private NavigationView nvDrawer;
@@ -109,6 +109,14 @@ public class HelpActivity extends AppCompatActivity {
             }
         });
         setupDrawerContent(nvDrawer);
+        View header = nvDrawer.getHeaderView(0);
+        closemenu = (Button) header.findViewById(R.id.dismissbutton);
+        closemenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDrawer.closeDrawers();
+            }
+        });
         FirebaseFirestore.getInstance().collection("profileimages").whereEqualTo("userID",FirebaseAuth.getInstance().getCurrentUser().getUid()).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull com.google.android.gms.tasks.Task<QuerySnapshot> task) {

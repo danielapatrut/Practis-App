@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private FrameLayout mFrameLayout;
     private DrawerLayout mDrawer;
     private NavigationView nvDrawer;
+    Button closemenu;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,8 +108,16 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        setupDrawerContent(nvDrawer);
 
+        setupDrawerContent(nvDrawer);
+        View header = nvDrawer.getHeaderView(0);
+        closemenu = (Button) header.findViewById(R.id.dismissbutton);
+        closemenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDrawer.closeDrawers();
+            }
+        });
     }
 
     private void setupDrawerContent(NavigationView navigationView) {

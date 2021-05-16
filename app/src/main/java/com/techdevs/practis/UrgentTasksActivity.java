@@ -26,7 +26,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 public class UrgentTasksActivity extends AppCompatActivity {
 
 TextView today, tomorrow;
-    Button mMenuButton;
+    Button mMenuButton,closemenu;
     ImageView mProfileImage;
     private DrawerLayout mDrawer;
     private NavigationView nvDrawer;
@@ -65,6 +65,14 @@ TextView today, tomorrow;
             }
         });
         setupDrawerContent(nvDrawer);
+        View header = nvDrawer.getHeaderView(0);
+        closemenu = (Button) header.findViewById(R.id.dismissbutton);
+        closemenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDrawer.closeDrawers();
+            }
+        });
     }
     private void setupDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(
