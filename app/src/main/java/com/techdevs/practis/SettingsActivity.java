@@ -71,8 +71,6 @@ public class SettingsActivity extends AppCompatActivity {
                 openNotifDialog();
             }
         });
-        //time
-        
         //help
         helpButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,8 +111,8 @@ public class SettingsActivity extends AppCompatActivity {
             AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.HOUR_OF_DAY, 8);
-            calendar.set(Calendar.MINUTE, 00);
-            calendar.set(Calendar.SECOND, 00);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),1000 * 60 * 60 * 24,  pendingIntent);
             notifTime.setText("Send notifications");
         }else

@@ -416,7 +416,9 @@ public class NewPageActivity extends AppCompatActivity {
     public boolean isFromList() {
         return fromList;
     }
+    //for covers
     private void uploadImageToFirebase(Uri imguri) {
+
         if (imguri != null) {
             CoverImage mImage = new CoverImage();
             if(mPage.getPageID()!=0){
@@ -435,18 +437,8 @@ public class NewPageActivity extends AppCompatActivity {
                                     public void onSuccess(Uri uri) {
                                         mImage.setUri(uri.toString());
                                         mImage.setUserID(firebaseAuth.getCurrentUser().getUid());
-                                        firebaseFirestore.collection("pages")
-                                                .whereEqualTo("pageID",mPage.getPageID())
-                                                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                                if (task.isSuccessful()) {
-                                                    for (QueryDocumentSnapshot document : task.getResult()) {
-                                                        mPage.setUri(String.valueOf(mImage.getUri()));
-                                                    }
-                                                }
-                                            }
-                                        });
+                                        mPage.setUri(String.valueOf(mImage.getUri()));
+                                        firebaseFirestore.collection("pages").document(String.valueOf(mPage.getPageID())).update("uri",mImage.getUri());
                                     }
                                 });
                             }
@@ -460,6 +452,7 @@ public class NewPageActivity extends AppCompatActivity {
             FirebaseFirestore.getInstance().collection("pages").document(String.valueOf(mPage.getPageID())).update("hasCoverImage",false);
         }
     }
+    //for in page
     private void uploadImageFirebase(Uri imguri) {
         if (imguri != null) {
             String fileName = UUID.randomUUID().toString() + ".png";
