@@ -9,7 +9,7 @@ public class Page {
     private String title;
     private String content;
     private String uri = "";
-    //private File content; //store content as markdown
+
     private boolean newPage=true;
     private int pageID;
 
@@ -24,12 +24,15 @@ public class Page {
         this.content=content;
         this.title=title;
     }
-    /*public Page(String userID, boolean hasCoverImage, String title, File content) {
-        this.userID = userID;
+
+    public Page(boolean hasCoverImage, String title, String content, String uri, boolean newPage, int pageID) {
         this.hasCoverImage = hasCoverImage;
         this.title = title;
         this.content = content;
-    }*/
+        this.uri = uri;
+        this.newPage = newPage;
+        this.pageID = pageID;
+    }
 
     public String getUri() {
         return uri;
@@ -78,14 +81,6 @@ public class Page {
     public void setTitle(String title) {
         this.title = title;
     }
-
-    /*public File getContent() {
-        return content;
-    }
-
-    public void setContent(File content) {
-        this.content = content;
-    }*/
 
     public String getContent() {
         return content;

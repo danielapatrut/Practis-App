@@ -14,6 +14,12 @@ public class Image {
         this.uri = uri;
     }
 
+    public Image(String uri, String userID, int imageID) {
+        this.uri = uri;
+        this.userID = userID;
+        this.imageID = imageID;
+    }
+
     public String getUri() {
         return uri;
     }

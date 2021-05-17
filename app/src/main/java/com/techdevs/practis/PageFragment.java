@@ -94,7 +94,6 @@ public class PageFragment extends Fragment {
         this.mTitle.setText(mTitle);
     }
 
-
     public void setmPage(Page mPage) {
         this.mPage = mPage;
     }
