@@ -41,26 +41,17 @@ public class Login extends AppCompatActivity {
                 String password = mPassword.getText().toString().trim();
                 String email = mEmail.getText().toString().trim();
 
-                if(TextUtils.isEmpty(email)){
-                    mEmail.setError("Email is Required.");
-                    return;
-                }
+                if (RegisterUtils.checkEmptyEmail(mEmail, email)) return;
 
-                if(TextUtils.isEmpty(password)){
-                    mPassword.setError("Password is Required.");
-                    return;
-                }
+                if (RegisterUtils.checkEmptyPassword(mPassword, password)) return;
 
-                if(password.length() < 6){
-                    mPassword.setError("Password too short");
-                    return;
-                }
+                if (RegisterUtils.checkPassLength(mPassword, password)) return;
 
                 fAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if(task.isSuccessful()){
-                            Toast.makeText(Login.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(Login.this, "Logged in Successfully", Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(getApplicationContext(),MainActivity.class));
                             finish();
                         }else {

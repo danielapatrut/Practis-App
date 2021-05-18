@@ -85,13 +85,11 @@ public class MyProfileActivity extends AppCompatActivity {
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
         if (user != null) {
             // User is signed in
-            //change welcome label text
             DocumentReference docRef = firestore.collection("users").document(user.getUid());
             firestore.collection("users").document(user.getUid()).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                     User currentUser = documentSnapshot.toObject(User.class);
-                    //mWelcomeLabel.setText("Welcome, "+currentUser.getUserName());
                     mEditEmail.setText(currentUser.getEmail());
                     mEditName.setText(currentUser.getUserName());
                     mEditPassword.setText(currentUser.getPassword());
@@ -121,7 +119,6 @@ public class MyProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //open menu
-                //startActivity(new Intent(getApplicationContext(),GalleryActivity.class));
                 mDrawer.openDrawer(GravityCompat.START);
             }
         });
@@ -161,8 +158,6 @@ public class MyProfileActivity extends AppCompatActivity {
                 String password = mEditPassword.getText().toString();
                 DocumentReference documentReference = fStore.collection("users").document(userID);
                 User userinformation = new User(name,email,password);
-                //documentReference.child(user.getUid()).setValue(userinformation);
-               // databaseReference.child(user.getUid()).setValue(userinformation);
                 documentReference.set(userinformation);
                 documentReference.set(userinformation);
                 etUsername.onEditorAction(EditorInfo.IME_ACTION_DONE);
@@ -293,6 +288,5 @@ public class MyProfileActivity extends AppCompatActivity {
 
 
         }
-        //myProfileImage.setImageURI(imguri);
     }
 }

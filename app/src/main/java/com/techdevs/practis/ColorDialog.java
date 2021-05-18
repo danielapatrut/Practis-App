@@ -33,12 +33,6 @@ public class ColorDialog extends Dialog implements android.view.View.OnClickList
         mOrange=findViewById(R.id.orange);
         mPurple=findViewById(R.id.purple);
         mBlack=findViewById(R.id.black);
-        //make text different color
-        mRed.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            }
-        });
 
     }
 

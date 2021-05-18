@@ -4,11 +4,8 @@ package com.techdevs.practis;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.nfc.Tag;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -19,7 +16,6 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -68,33 +64,20 @@ public class Register extends AppCompatActivity {
                 String userName = mUserName.getText().toString().trim();
 
 
-                if(TextUtils.isEmpty(email)){
-                    mEmail.setError("Email is Required.");
-                    return;
-                }
+                if (RegisterUtils.checkEmptyEmail(mEmail, email)) return;
 
-                if(TextUtils.isEmpty(password)){
-                    mPassword.setError("Password is Required.");
-                    return;
-                }
+                if (RegisterUtils.checkEmptyPassword(mPassword, password)) return;
 
-                if(password.length() < 6){
-                    mPassword.setError("Password too short");
-                    return;
-                }
+                if (RegisterUtils.checkPassLength(mPassword, password)) return;
 
-               if(!(password.equals(confirmPassword)))
-                {
-                    mConfirmPassword.setError("Password don't match");
-                    return;
-                }
+                if (RegisterUtils.checkPasswordsMatch(mConfirmPassword, password, confirmPassword)) return;
 
                 fAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful())
                         {
-                            Toast.makeText(Register.this, "User created", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(Register.this, "User created", Toast.LENGTH_SHORT).show();
                             userID = fAuth.getCurrentUser().getUid();
                             DocumentReference documentReference = fStore.collection("users").document(userID);
                             Map<String,Object> user = new HashMap<>();
@@ -126,11 +109,5 @@ public class Register extends AppCompatActivity {
             }
         });
     }
-
-    /*public void goToLogin(View view)
-    {
-        startActivity(new Intent(Register.this,Login.class));
-        //finish();
-    }*/
 
 }

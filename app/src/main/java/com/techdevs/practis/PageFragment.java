@@ -1,6 +1,6 @@
 package com.techdevs.practis;
 
-import android.graphics.Typeface;
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,23 +9,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.Editable;
-import android.text.Html;
-import android.text.SpannableStringBuilder;
-import android.text.Spanned;
+
 import android.text.TextWatcher;
-import android.text.style.CharacterStyle;
-import android.text.style.StyleSpan;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import org.commonmark.node.Node;
-
-import java.util.concurrent.Executors;
-
-import io.noties.markwon.Markwon;
-import io.noties.markwon.recycler.MarkwonAdapter;
 import jp.wasabeef.richeditor.RichEditor;
 
 
@@ -34,7 +25,6 @@ public class PageFragment extends Fragment {
     private Page mPage;
     private EditText mTitle, mContent;
     public RichEditor editor;
-    CharacterStyle styleItalic;
 
     public PageFragment() {
         // Required empty public constructor
@@ -55,7 +45,6 @@ public class PageFragment extends Fragment {
         editor = view.findViewById(R.id.editor);
         editor.setPlaceholder("Start typing...");
         editor.setEditorFontSize(24);
-        final Markwon markwon = Markwon.create(getActivity());
 
         //dynamically change page title from activity
         mTitle.addTextChangedListener(new TextWatcher() {
